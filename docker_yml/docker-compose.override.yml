@@ -1,0 +1,49 @@
+# Docker Compose override for development
+version: "3.8"
+
+services:
+  hci-dev:
+    environment:
+      - DEBUG=true
+      - LOG_LEVEL=DEBUG
+    ports:
+      - "8080:8080" # For any web interface
+    volumes:
+      - ~/.gitconfig:/home/testuser/.gitconfig:ro
+      - ~/.ssh:/home/testuser/.ssh:ro
+    command: >
+      bash -c "
+      echo 'Starting development environment...' &&
+      Xvfb :99 -screen 0 1920x1080x24 & 
+      sleep 2 &&
+      echo 'Virtual display started' &&
+      echo 'Development container ready!' &&
+      echo 'Access with: docker exec -it hci-extension-dev bash' &&
+      tail -f /dev/null
+      "
+
+  # Additional development tools
+  jupyter:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: development
+    container_name: hci-jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ..:/workspace:rw
+      - jupyter-data:/home/testuser/.jupyter
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    command: >
+      bash -c "
+      pip3 install jupyterlab &&
+      jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''
+      "
+    networks:
+      - hci-network
+
+volumes:
+  jupyter-data:
+    driver: local

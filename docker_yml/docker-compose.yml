@@ -1,0 +1,202 @@
+version: "3.8"
+
+services:
+  # Development Environment
+  hci-dev:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: development
+    container_name: hci-extension-dev
+    volumes:
+      - ..:/workspace:rw
+      - hci-cache:/home/testuser/.cache
+      - hci-pip-cache:/home/testuser/.local
+    environment:
+      - DISPLAY=:99
+      - PYTHONPATH=/workspace/src_python/src:/workspace/src_python
+      - DEVELOPMENT=true
+    working_dir: /workspace
+    command: bash -c "Xvfb :99 -screen 0 1920x1080x24 & sleep 2 && bash"
+    stdin_open: true
+    tty: true
+    networks:
+      - hci-network
+
+  # Test Environment
+  hci-test:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.test
+    container_name: hci-extension-test
+    volumes:
+      - ..:/workspace:ro
+      - test-results:/workspace/test-results
+    environment:
+      - DISPLAY=:99
+      - CI=true
+      - PYTHONPATH=/workspace/src_python/src:/workspace/src_python
+    working_dir: /workspace
+    command: ./test.sh --docker
+    depends_on:
+      - hci-lint
+    networks:
+      - hci-network
+
+  # Code Quality & Linting
+  hci-lint:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: development
+    container_name: hci-extension-lint
+    volumes:
+      - ..:/workspace:ro
+      - lint-results:/workspace/lint-results
+    environment:
+      - PYTHONPATH=/workspace/src_python/src:/workspace/src_python
+    working_dir: /workspace
+    command: >
+      bash -c "mkdir -p lint-results &&
+      cd src_python &&
+      echo 'Running Black...' &&
+      black --check --diff . > ../lint-results/black.log 2>&1 || echo 'Black issues found' &&
+      echo 'Running Flake8...' &&
+      flake8 --max-line-length=120 . > ../lint-results/flake8.log 2>&1 || echo 'Flake8 issues found' &&
+      echo 'Running MyPy...' &&
+      mypy --ignore-missing-imports . > ../lint-results/mypy.log 2>&1 || echo 'MyPy issues found' &&
+      echo 'Linting completed. Check lint-results/ for details.'"
+    networks:
+      - hci-network
+
+  # Security Scanning
+  hci-security:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: development
+    container_name: hci-extension-security
+    volumes:
+      - ..:/workspace:ro
+      - security-results:/workspace/security-results
+    environment:
+      - PYTHONPATH=/workspace/src_python/src:/workspace/src_python
+    working_dir: /workspace
+    command: >
+      bash -c "pip3 install bandit safety &&
+      mkdir -p security-results &&
+      cd src_python &&
+      echo 'Running Bandit security scan...' &&
+      bandit -r src/ -f json -o ../security-results/bandit.json || echo 'Bandit completed with issues' &&
+      bandit -r src/ > ../security-results/bandit.txt 2>&1 || echo 'Bandit text report completed' &&
+      echo 'Running Safety dependency check...' &&
+      safety check > ../security-results/safety.txt 2>&1 || echo 'Safety check completed' &&
+      echo 'Security scanning completed. Check security-results/ for details.'"
+    networks:
+      - hci-network
+
+  # Performance Testing
+  hci-performance:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: test
+    container_name: hci-extension-performance
+    volumes:
+      - ..:/workspace:ro
+      - performance-results:/workspace/performance-results
+    environment:
+      - DISPLAY=:99
+      - PYTHONPATH=/workspace/src_python/src:/workspace/src_python
+    working_dir: /workspace
+    command: >
+      bash -c "Xvfb :99 -screen 0 1920x1080x24 &
+      sleep 3 &&
+      pip3 install pytest-benchmark &&
+      mkdir -p performance-results &&
+      cd src_python &&
+      echo 'Running performance benchmarks...' &&
+      pytest tests/ -m 'performance' --benchmark-only --benchmark-json=../performance-results/benchmark.json -v ||
+      echo 'Performance tests completed. Check performance-results/ for details.'"
+    networks:
+      - hci-network
+
+  # Documentation Generation
+  hci-docs:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: development
+    container_name: hci-extension-docs
+    volumes:
+      - ..:/workspace:rw
+      - docs-output:/workspace/docs-output
+    working_dir: /workspace
+    command: >
+      bash -c "pip3 install pdoc3 sphinx &&
+      mkdir -p docs-output &&
+      echo 'Generating Python documentation...' &&
+      cd src_python &&
+      pdoc3 --html --output-dir ../docs-output src/ &&
+      echo 'Documentation generated in docs-output/'"
+    networks:
+      - hci-network
+
+  # Database for test data (if needed)
+  test-db:
+    image: postgres:15-alpine
+    container_name: hci-test-db
+    environment:
+      POSTGRES_DB: hci_test
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+    volumes:
+      - test-db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - hci-network
+    profiles:
+      - database
+
+  # Redis for caching (if needed)
+  test-redis:
+    image: redis:7-alpine
+    container_name: hci-test-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - test-redis-data:/data
+    networks:
+      - hci-network
+    profiles:
+      - cache
+
+# Volumes for persistent data
+volumes:
+  hci-cache:
+    driver: local
+  hci-pip-cache:
+    driver: local
+  test-results:
+    driver: local
+  lint-results:
+    driver: local
+  security-results:
+    driver: local
+  performance-results:
+    driver: local
+  docs-output:
+    driver: local
+  test-db-data:
+    driver: local
+  test-redis-data:
+    driver: local
+
+# Network for inter-service communication
+networks:
+  hci-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

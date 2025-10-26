@@ -1,0 +1,118 @@
+{
+  "gestures": {
+    "movement_based": {
+      "index_movement_click": {
+        "action": "left_click",
+        "type": "index_movement",
+        "min_duration": 0.2,
+        "movement_threshold": 0.02,
+        "confidence": 0.9
+      },
+      "thumb_movement_click": {
+        "action": "right_click", 
+        "type": "thumb_movement",
+        "min_duration": 0.2,
+        "movement_threshold": 0.02,
+        "confidence": 0.9
+      },
+      "both_movement_drag": {
+        "action": "drag",
+        "type": "both_movement",
+        "min_duration": 0.3,
+        "movement_threshold": 0.015,
+        "confidence": 0.8
+      }
+    },
+    "pose_based": {
+      "fist_to_open": {
+        "action": "win_key",
+        "type": "pose_transition",
+        "from": "fist",
+        "to": "open_palm",
+        "confidence": 0.9
+      }
+    },
+    "disabled": {
+      "zoom": {
+        "reason": "Temporarily disabled for system stability",
+        "actions": ["zoom_in", "zoom_out"]
+      },
+      "two_finger_scroll": {
+        "reason": "Will be added after basic system is perfected",
+        "actions": ["scroll_up", "scroll_down"]
+      }
+    }
+  },
+  "settings": {
+    "smart_filtering": {
+      "enabled": true,
+      "adaptive_filter_window": 5,
+      "kalman_filter": true,
+      "jitter_reduction": true,
+      "jitter_threshold": 2.0
+    },
+    "auto_calibration": {
+      "enabled": true,
+      "duration_seconds": 3.0,
+      "min_samples": 30,
+      "sensitivity_adaptation": true
+    },
+    "cursor_control": {
+      "only_during_pinch": true,
+      "smart_filtering": true,
+      "acceleration_zones": true,
+      "precision_zones": [
+        {"x": 0, "y": 0, "width": 100, "height": 100, "description": "top-left corner"},
+        {"x": 1820, "y": 0, "width": 100, "height": 100, "description": "top-right corner"},
+        {"x": 0, "y": 980, "width": 100, "height": 100, "description": "bottom-left corner"},
+        {"x": 1820, "y": 980, "width": 100, "height": 100, "description": "bottom-right corner"}
+      ]
+    },
+    "smoothing": 0.2,
+    "click_cooldown": 0.15,
+    "stability_required": true,
+    "auto_calibrate": true,
+    "safe_mode": true,
+    "tutorial_mode_available": true,
+    "sensitivity": {
+      "movement": 1.0,
+      "pinch_detection": 1.0,
+      "auto_adjustment": true
+    },
+    "thresholds": {
+      "pinch_distance_multiplier": 0.12,
+      "movement_threshold_multiplier": 0.08,
+      "confidence_minimum": 0.8,
+      "stability_frames": 3,
+      "max_actions_per_second": 5,
+      "precise_area_cooldown": 0.1,
+      "normal_area_cooldown": 0.15
+    },
+    "visual_feedback": {
+      "show_landmarks": true,
+      "show_confidence": true,
+      "show_stability": true,
+      "show_help": true,
+      "show_stats": false,
+      "show_pinch_status": true,
+      "show_filter_info": true,
+      "show_calibration_progress": true
+    },
+    "safety": {
+      "prevent_edge_clicks": true,
+      "max_movement_per_frame": 100,
+      "require_intentional_movement": true,
+      "enable_failsafe": true,
+      "min_action_interval": 0.1,
+      "screen_edge_margin": 50,
+      "jitter_protection": true,
+      "movement_validation": true
+    },
+    "performance": {
+      "target_fps": 30,
+      "max_processing_time_ms": 33,
+      "skip_frames_on_lag": true,
+      "optimize_for_low_end": false
+    }
+  }
+}

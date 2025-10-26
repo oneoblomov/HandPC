@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.hci" path="/org/gnome/shell/extensions/hci/">
+    
+    <!-- Ana ayarlar -->
+    <key name="enabled" type="b">
+      <default>false</default>
+      <summary>Enable HCI Gesture Control</summary>
+      <description>Enable or disable the HCI gesture control system</description>
+    </key>
+    
+    <key name="tutorial-mode" type="b">
+      <default>true</default>
+      <summary>Tutorial Mode</summary>
+      <description>Enable tutorial mode for safe testing</description>
+    </key>
+    
+    <key name="safe-mode" type="b">
+      <default>true</default>
+      <summary>Safe Mode</summary>
+      <description>Enable safe mode to prevent accidental actions</description>
+    </key>
+    
+    <key name="auto-calibrate" type="b">
+      <default>true</default>
+      <summary>Auto Calibration</summary>
+      <description>Automatically calibrate hand detection on startup</description>
+    </key>
+    
+    <!-- Hassasiyet ayarları -->
+    <key name="smoothing-factor" type="d">
+      <default>0.3</default>
+      <range min="0.1" max="0.9"/>
+      <summary>Cursor Smoothing</summary>
+      <description>Cursor movement smoothing factor (0.1 = fast, 0.9 = slow)</description>
+    </key>
+    
+    <key name="pinch-threshold" type="d">
+      <default>0.05</default>
+      <range min="0.01" max="0.2"/>
+      <summary>Pinch Sensitivity</summary>
+      <description>Pinch detection threshold</description>
+    </key>
+    
+    <key name="confidence-minimum" type="d">
+      <default>0.7</default>
+      <range min="0.5" max="0.95"/>
+      <summary>Minimum Confidence</summary>
+      <description>Minimum confidence level for gesture recognition</description>
+    </key>
+    
+    <!-- Güvenlik ayarları -->
+    <key name="click-cooldown" type="d">
+      <default>0.3</default>
+      <range min="0.1" max="2.0"/>
+      <summary>Click Cooldown</summary>
+      <description>Minimum time between clicks (seconds)</description>
+    </key>
+    
+    <key name="max-actions-per-second" type="i">
+      <default>3</default>
+      <range min="1" max="10"/>
+      <summary>Max Actions Per Second</summary>
+      <description>Maximum number of actions allowed per second</description>
+    </key>
+    
+    <key name="screen-edge-margin" type="i">
+      <default>50</default>
+      <range min="10" max="200"/>
+      <summary>Screen Edge Margin</summary>
+      <description>Safe margin from screen edges (pixels)</description>
+    </key>
+    
+    <!-- Kamera ayarları -->
+    <key name="camera-index" type="i">
+      <default>0</default>
+      <range min="0" max="10"/>
+      <summary>Camera Index</summary>
+      <description>Camera device index to use</description>
+    </key>
+    
+    <key name="camera-fps" type="i">
+      <default>30</default>
+      <range min="15" max="60"/>
+      <summary>Camera FPS</summary>
+      <description>Camera frames per second</description>
+    </key>
+    
+    <!-- Görsel ayarlar -->
+    <key name="show-notifications" type="b">
+      <default>true</default>
+      <summary>Show Notifications</summary>
+      <description>Show desktop notifications for important events</description>
+    </key>
+    
+    <key name="log-level" type="s">
+      <choices>
+        <choice value="DEBUG"/>
+        <choice value="INFO"/>
+        <choice value="WARNING"/>
+        <choice value="ERROR"/>
+      </choices>
+      <default>"INFO"</default>
+      <summary>Log Level</summary>
+      <description>Logging verbosity level</description>
+    </key>
+    
+    <!-- Gesture eşlemeleri -->
+    <key name="left-click-gesture" type="s">
+      <default>"single_pinch"</default>
+      <summary>Left Click Gesture</summary>
+      <description>Gesture pattern for left click</description>
+    </key>
+    
+    <key name="right-click-gesture" type="s">
+      <default>"double_pinch"</default>
+      <summary>Right Click Gesture</summary>
+      <description>Gesture pattern for right click</description>
+    </key>
+    
+    <key name="drag-gesture" type="s">
+      <default>"three_finger_pinch"</default>
+      <summary>Drag Gesture</summary>
+      <description>Gesture pattern for drag and drop</description>
+    </key>
+    
+    <!-- Uygulama kısayolları -->
+    <key name="app-shortcuts" type="as">
+      <default>["firefox", "code", "nautilus", "gnome-terminal", "gnome-calculator"]</default>
+      <summary>Application Shortcuts</summary>
+      <description>Applications that can be opened via gestures</description>
+    </key>
+    
+    <!-- Devre dışı bırakılacak özellikler -->
+    <key name="disabled-features" type="as">
+      <default>["zoom", "scroll"]</default>
+      <summary>Disabled Features</summary>
+      <description>List of features to keep disabled</description>
+    </key>
+    
+  </schema>
+</schemalist>
