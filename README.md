@@ -1,5 +1,14 @@
 # HCI (Hand Control Interface) - GNOME Shell Extension
 
+[![CI](https://github.com/oneoblomov/HandPC/workflows/HCI%20Extension%20CI/CD%20Pipeline/badge.svg)](https://github.com/oneoblomov/HandPC/actions)
+[![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
+[![GNOME Shell 45](https://img.shields.io/badge/GNOME%20Shell-45-orange.svg)](https://wiki.gnome.org/)
+[![GNOME Shell 46](https://img.shields.io/badge/GNOME%20Shell-46-orange.svg)](https://wiki.gnome.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 El hareketleri ile bilgisayar kontrolü için GNOME Shell eklentisi. MediaPipe tabanlı gesture recognition kullanarak fare ve klavye işlemlerini el hareketleri ile gerçekleştirmenizi sağlar.
 
 ## 🎯 Özellikler
