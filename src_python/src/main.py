@@ -685,8 +685,7 @@ if __name__ == '__main__':
         }
 
         print("🚀 HCI Gesture Control başlatılıyor...")
-        print(f"📋 Ayarlar: Tutorial={args.tutorial_mode}, Safe={
-              settings_override['safe_mode']}, Auto-cal={settings_override['auto_calibrate']}")
+        print(f"📋 Ayarlar: Tutorial={args.tutorial_mode}, Safe={settings_override['safe_mode']}, Auto-cal={settings_override['auto_calibrate']}")
         print(f"🎥 Kamera: {args.camera_index} @ {args.fps}fps")
         print(f"🎯 Hassasiyet: smoothing={args.smoothing}, confidence={args.confidence}")
 
