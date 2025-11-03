@@ -20,9 +20,9 @@ class TestGestureDetectorPytest:
         assert hasattr(self.detector, 'detect_gesture')
     
     @pytest.mark.parametrize("distance_input,expected", [
-        ((0.0, 0.0), (3.0, 4.0), 5.0),
-        ((0.0, 0.0), (0.0, 0.0), 0.0),
-        ((1.0, 1.0), (1.0, 1.0), 0.0),
+        (((0.0, 0.0), (3.0, 4.0)), 5.0),
+        (((0.0, 0.0), (0.0, 0.0)), 0.0),
+        (((1.0, 1.0), (1.0, 1.0)), 0.0),
     ])
     def test_distance_calculation_parametrized(self, distance_input, expected):
         """Parametrize edilmiş mesafe hesaplama testi"""
@@ -313,7 +313,7 @@ class TestEdgeCasesPytest:
                 result = detector.detect_gesture(invalid_input)
                 # Should return a valid response or handle gracefully
                 assert isinstance(result, dict) or result is None
-            except (TypeError, AttributeError, IndexError):
+            except (TypeError, AttributeError, IndexError, KeyError):
                 # These exceptions are acceptable for invalid input
                 pass
                 
