@@ -130,7 +130,7 @@ class KalmanFilter:
 class JitterReduction:
     """Titreme azaltma sistemi"""
     
-    def __init__(self, threshold: float = 2.0):
+    def __init__(self, threshold: float = 0.005):
         self.threshold = threshold
         self.last_position = None
         self.stable_position = None
