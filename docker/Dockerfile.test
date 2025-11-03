@@ -28,7 +28,9 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python test packages and project dependencies
-RUN pip3 install \
+RUN pip3 install --upgrade pip && \
+    pip3 install meson && \
+    pip3 install \
     pytest>=7.0.0 \
     pytest-cov>=4.0.0 \
     black>=23.0.0 \
