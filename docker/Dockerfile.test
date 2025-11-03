@@ -23,6 +23,8 @@ RUN apt-get update && apt-get install -y \
     gir1.2-gdkpixbuf-2.0 \
     gir1.2-atk-1.0 \
     libcairo2-dev \
+    meson \
+    ninja-build \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python test packages and project dependencies
