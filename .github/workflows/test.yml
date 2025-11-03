@@ -101,7 +101,7 @@ jobs:
         working-directory: src_python
         env:
           DISPLAY: ":99"
-          PYTHONPATH: "${{ github.workspace }}/src_python/src:${{ github.workspace }}/src_python"
+          PYTHONPATH: "${{ github.workspace }}:${{ github.workspace }}/src_python/src:${{ github.workspace }}/src_python"
         run: |
           # Start virtual display for GUI tests
           Xvfb :99 -screen 0 1920x1080x24 &

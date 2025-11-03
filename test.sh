@@ -16,10 +16,10 @@ echo "🚀 Starting HCI Extension Tests..."
 # Set up environment
 if [ "$DOCKER_MODE" = true ]; then
     export DISPLAY=:99
-    export PYTHONPATH="/workspace/src_python/src:/workspace/src_python"
+    export PYTHONPATH="/workspace:/workspace/src_python/src:/workspace/src_python"
     cd /workspace
 else
-    export PYTHONPATH="$(pwd)/src_python/src:$(pwd)/src_python"
+    export PYTHONPATH="$(pwd):$(pwd)/src_python/src:$(pwd)/src_python"
 fi
 
 # Start virtual display if needed
