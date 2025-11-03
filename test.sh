@@ -31,12 +31,10 @@ fi
 
 # Run Python tests
 echo "🧪 Running Python tests..."
-cd src_python
-python3 -m pytest ../tests/python/ -v --tb=short -x || {
+python3 -m pytest tests/python/ -v --tb=short -x || {
     echo "❌ Python tests failed"
     exit 1
 }
-cd ..
 
 # Run Extension tests
 echo "🔧 Running Extension tests..."
