@@ -9,218 +9,218 @@
 [![GNOME Shell 46](https://img.shields.io/badge/GNOME%20Shell-46-orange.svg)](https://wiki.gnome.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-El hareketleri ile bilgisayar kontrolü için GNOME Shell eklentisi. MediaPipe tabanlı gesture recognition kullanarak fare ve klavye işlemlerini el hareketleri ile gerçekleştirmenizi sağlar.
+A GNOME Shell extension for computer control with hand gestures. It allows you to perform mouse and keyboard operations with hand gestures using MediaPipe-based gesture recognition.
 
-## 🎯 Özellikler
+## Features
 
-### ✨ Ana Özellikler
+### Main Features
 
-- **El Gesture Kontrolü**: MediaPipe ile gelişmiş el algılama
-- **Modüler Yapı**: Temiz ve sürdürülebilir kod
-- **GNOME Entegrasyonu**: Üst bar'da tam entegrasyon
-- **Güvenli Mod**: İstenmeyen eylemleri önler
-- **Tutorial Modu**: Güvenli öğrenme ortamı
+- Hand Gesture Control: Advanced hand detection with MediaPipe
+- Modular Structure: Clean and maintainable code
+- GNOME Integration: Full integration in the top bar
+- Safe Mode: Prevents unwanted actions
+- Tutorial Mode: Safe learning environment
 
-### 🤚 Desteklenen Gestureler
+### Supported Gestures
 
-- **👆 Pinch**: İmleç hareketi (baş + işaret parmağı)
-- **👆➡️👆 Tek Pinch**: Sol click
-- **👆➡️👆➡️👆 Çift Pinch**: Sağ click
-- **✋ Üç Parmak**: Sürükleme (drag & drop)
-- **✊➡️✋ Yumruk→Açık**: Win tuşu/Uygulama menüsü
+- Pinch: Cursor movement (thumb + index finger)
+- Single Pinch: Left click
+- Double Pinch: Right click
+- Three Fingers: Drag and drop
+- Fist to Open Hand: Win key/Application menu
 
-### 🛡️ Güvenlik Özellikleri
+### Security Features
 
-- Ekran kenarı koruması
-- Eylem sıklığı sınırlaması
-- Minimum güven seviyesi kontrolü
-- Tutorial modu ile güvenli test
+- Screen edge protection
+- Action frequency limitation
+- Minimum confidence level control
+- Safe testing with tutorial mode
 
-## 📦 Kurulum
+## Installation
 
-### Gereksinimler
+### Requirements
 
 ```bash
-# Python bağımlılıkları
+# Python dependencies
 pip install opencv-python mediapipe pyautogui
 
-# Sistem gereksinimleri
+# System requirements
 sudo apt install python3-opencv python3-pip glib-2.0-dev
 ```
 
-### Eklenti Kurulumu
+### Extension Installation
 
-1. Eklenti dosyalarını doğru konuma kopyalayın
-2. Şemaları derleyin:
+1. Copy extension files to the correct location
+2. Compile schemas:
 
 ```bash
 cd ~/.local/share/gnome-shell/extensions/hci@oneOblomov.dev/schemas
 glib-compile-schemas .
 ```
 
-3. GNOME Shell'i yeniden başlatın: `Alt+F2` → `r` → `Enter`
-4. Extensions uygulamasından eklentiyi etkinleştirin
+3. Restart GNOME Shell: `Alt+F2` → `r` → `Enter`
+4. Enable the extension from the Extensions app
 
-## 🚀 Kullanım
+## Usage
 
-### İlk Başlatma
+### First Startup
 
-1. Üst bar'daki HCI ikonuna tıklayın
-2. "Gesture Control" anahtarını açın
-3. Otomatik kalibrasyon tamamlanmasını bekleyin
-4. Tutorial modu ile güvenle test edin
+1. Click the HCI icon in the top bar
+2. Turn on the "Gesture Control" switch
+3. Wait for automatic calibration to complete
+4. Test safely with tutorial mode
 
-### Panel Menüsü
+### Panel Menu
 
-- **🔄 Gesture Control**: Ana açma/kapama
-- **📚 Tutorial Modu**: Güvenli test modu
-- **🛡️ Güvenli Mod**: Koruma sistemi
-- **🎯 El Kalibrasyonu**: Manuel kalibrasyon
-- **📊 İstatistikler**: Kullanım verileri
-- **📝 Log**: Anlık durum bilgisi
+- Gesture Control: Main on/off
+- Tutorial Mode: Safe test mode
+- Safe Mode: Protection system
+- Hand Calibration: Manual calibration
+- Statistics: Usage data
+- Log: Real-time status information
 
-### Gesture Kullanımı
+### Gesture Usage
 
-1. **İmleç Hareketi**: Baş ve işaret parmağınızı birleştirin (pinch), hareket ettirin
-2. **Sol Click**: Pinch yapıp bırakın
-3. **Sağ Click**: Hızlı iki kez pinch yapın
-4. **Sürükleme**: Üç parmağınızı birleştirin, hareket ettirin
-5. **Win Menüsü**: Yumruğunuzu açık ele çevirin
+1. Cursor Movement: Pinch with thumb and index finger, move
+2. Left Click: Pinch and release
+3. Right Click: Pinch twice quickly
+4. Drag: Join three fingers, move
+5. Win Menu: Change from fist to open hand
 
-## ⚙️ Ayarlar
+## Settings
 
-### Ana Ayarlar
+### Main Settings
 
-- **Tutorial Modu**: Güvenli test ortamı
-- **Güvenli Mod**: İstenmeyen eylem koruması
-- **Otomatik Kalibrasyon**: Başlangıç kalibrasyonu
+- Tutorial Mode: Safe test environment
+- Safe Mode: Protection against unwanted actions
+- Automatic Calibration: Initial calibration
 
-### Hassasiyet
+### Sensitivity
 
-- **İmleç Yumuşaklığı**: Hareket pürüzsüzlüğü (0.1-0.9)
-- **Pinch Hassasiyeti**: Algılama eşiği (0.01-0.2)
-- **Minimum Güven**: Gesture güven seviyesi (0.5-0.95)
+- Cursor Smoothness: Movement smoothness (0.1-0.9)
+- Pinch Sensitivity: Detection threshold (0.01-0.2)
+- Minimum Confidence: Gesture confidence level (0.5-0.95)
 
-### Güvenlik
+### Security
 
-- **Click Bekleme**: Clickler arası süre (0.1-2.0s)
-- **Max Eylem/Saniye**: Hız sınırı (1-10)
-- **Ekran Kenarı Mesafesi**: Güvenli alan (10-200px)
+- Click Delay: Time between clicks (0.1-2.0s)
+- Max Actions/Second: Speed limit (1-10)
+- Screen Edge Distance: Safe area (10-200px)
 
-### Kamera
+### Camera
 
-- **Kamera Cihazı**: Kullanılacak kamera (0-10)
-- **FPS**: Frame hızı (15-60)
+- Camera Device: Camera to use (0-10)
+- FPS: Frame rate (15-60)
 
-## 🐛 Sorun Giderme
+## Troubleshooting
 
-### Kamera Açılmıyor
+### Camera Not Opening
 
 ```bash
-# Kamera erişim kontrolü
+# Check camera access
 ls /dev/video*
 
 # Python test
 python3 -c "import cv2; cap = cv2.VideoCapture(0); print(cap.isOpened())"
 ```
 
-### MediaPipe Hatası
+### MediaPipe Error
 
 ```bash
-# MediaPipe yeniden kurulum
+# Reinstall MediaPipe
 pip uninstall mediapipe
 pip install mediapipe
 ```
 
-### PyAutoGUI Sorunu
+### PyAutoGUI Issue
 
 ```bash
-# X11 için
+# For X11
 export DISPLAY=:0
 
-# Wayland için (sınırlı destek)
+# For Wayland (limited support)
 sudo apt install python3-xlib
 ```
 
-### Eklenti Logları
+### Extension Logs
 
 ```bash
-# GNOME Shell logları
+# GNOME Shell logs
 journalctl -f -o cat /usr/bin/gnome-shell
 
-# HCI logları
+# HCI logs
 tail -f ~/.local/share/gnome-shell/extensions/hci@oneOblomov.dev/logs/hci.log
 ```
 
-## 📁 Dosya Yapısı
+## File Structure
 
 ```
 hci@oneOblomov.dev/
-├── metadata.json          # Eklenti metadata
-├── extension.js          # Ana GNOME JS kodu
-├── prefs.js             # Ayarlar sayfası
-├── gesture_service.py   # Python gesture servisi
-├── gesture_core.py      # Modüler gesture algılama
-├── schemas/             # GSettings şeması
+├── metadata.json          # Extension metadata
+├── extension.js          # Main GNOME JS code
+├── prefs.js             # Settings page
+├── gesture_service.py   # Python gesture service
+├── gesture_core.py      # Modular gesture detection
+├── schemas/             # GSettings schema
 │   ├── *.gschema.xml
 │   └── gschemas.compiled
-├── logs/               # Log dosyaları
-└── commands/          # Komut dosyaları
+├── logs/               # Log files
+└── commands/          # Command files
 ```
 
-## 🔧 Geliştirme
+## Development
 
-### Debug Modu
+### Debug Mode
 
 ```bash
-# Extension logları
+# Extension logs
 journalctl -f -o cat /usr/bin/gnome-shell | grep HCI
 
-# Python servisi debug
+# Python service debug
 python3 gesture_service.py /path/to/extension
 ```
 
-### Yeni Gesture Ekleme
+### Adding New Gesture
 
-1. `gesture_core.py` içinde `detect_gesture()` fonksiyonunu düzenleyin
-2. `ActionHandler` sınıfına yeni eylem ekleyin
-3. Ayarlar şemasını güncelleyin
+1. Edit the `detect_gesture()` function in `gesture_core.py`
+2. Add new action to the `ActionHandler` class
+3. Update the settings schema
 
 ### Test
 
 ```bash
-# Eklenti test
+# Extension test
 busctl --user call org.gnome.Shell /org/gnome/Shell org.gnome.Shell Eval s 'Extension.reloadExtension("hci@oneOblomov.dev")'
 
 # Python test
 python3 -c "from gesture_core import GestureDetector; print('OK')"
 ```
 
-## 🎯 Gelecek Özellikler
+## Future Features
 
-- [ ] Çoklu el desteği
-- [ ] Özel gesture tanımlama
-- [ ] Ses komut entegrasyonu
-- [ ] Wayland tam desteği
-- [ ] Uygulama bazlı gesture profilleri
+- [ ] Multi-hand support
+- [ ] Custom gesture definition
+- [ ] Voice command integration
+- [ ] Full Wayland support
+- [ ] Application-based gesture profiles
 
-## 🤝 Katkıda Bulunma
+## Contributing
 
-1. Fork yapın
-2. Feature branch oluşturun
-3. Değişikliklerinizi commit edin
-4. Pull request gönderin
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Send a pull request
 
-## 📄 Lisans
+## License
 
-MIT License - Özgürce kullanabilir ve geliştirebilirsiniz.
+MIT License - You can use and develop it freely.
 
-## 🆘 Destek
+## Support
 
-- **Issues**: GitHub repository
-- **Wiki**: Detaylı dokümantasyon
-- **Discussions**: Topluluk desteği
+- Issues: GitHub repository
+- Wiki: Detailed documentation
+- Discussions: Community support
 
 ---
 
-**⚠️ Uyarı**: Bu eklenti henüz geliştirme aşamasındadır. Tutorial modu ile güvenle test edin.
+Warning: This extension is still in development. Test safely with tutorial mode.
