@@ -28,13 +28,13 @@ var TestFramework = class {
 
     async runTest(test) {
         try {
-            print(`▶️  Running: ${test.name}`);
+            print(` Running: ${test.name}`);
             await test.testFunction();
             this.results.passed++;
-            print(`✅ PASSED: ${test.name}`);
+            print(`[✓] PASSED: ${test.name}`);
         } catch (error) {
             this.results.failed++;
-            print(`❌ FAILED: ${test.name}`);
+            print(`[X] FAILED: ${test.name}`);
             print(`   Error: ${error.message}`);
             if (error.stack) {
                 print(`   Stack: ${error.stack}`);

@@ -1,8 +1,8 @@
-# 🎯 Gesture Control - Kullanım Kılavuzu
+# Gesture Control - Kullanim Kilavuzu
 
-## 🚀 Hızlı Başlangıç
+## Hizli Başlangiç
 
-### 1. Sistemi Başlatın
+### 1. Sistemi Başlatin
 
 ```bash
 python gesture_control.py
@@ -11,106 +11,106 @@ python gesture_control.py
 ### 2. İlk Kalibrasyonu Bekleyin
 
 - Sistem otomatik olarak elinizi kalibre edecek
-- Elinizi kameranın önünde sabit tutun
-- "✓ El kalibrasyonu tamamlandı" mesajını bekleyin
+- Elinizi kameranin onunde sabit tutun
+- "✓ El kalibrasyonu tamamlandi" mesajini bekleyin
 
 ### 3. Tutorial Modu ile Test Edin
 
-- `t` tuşuna basarak tutorial modunu açın
-- Bu modda eylemler gerçekleşmez, sadece algılanır
-- Gesture'ları güvenle deneyebilirsiniz
+- `t` tuşuna basarak tutorial modunu açin
+- Bu modda eylemler gerçekleşmez, sadece algilanir
+- Gesture'lari guvenle deneyebilirsiniz
 
 ## 🤚 Gesture Rehberi
 
-### ✅ Temel Gesture'lar (Kolay)
+### [✓] Temel Gesture'lar (Kolay)
 
-- **👆 Sol Tıklama**: Thumb+Index parmağı birleştirin (pinch)
-- **🖱️ Sağ Tıklama**: Thumb+Index+Middle parmağı birleştirin
-- **🔄 Sürükleme**: Pinch'i 0.7+ saniye tutun
+- **👆 Sol Tiklama**: Thumb+Index parmaği birleştirin (pinch)
+- **🖱️ Sağ Tiklama**: Thumb+Index+Middle parmaği birleştirin
+- **🔄 Surukleme**: Pinch'i 0.7+ saniye tutun
 
 ### ⚠️ İleri Seviye Gesture'lar (Deneyimli)
 
-- **📜 Kaydırma**: İki parmak (index+middle) yukarı/aşağı hareket
+- **📜 Kaydirma**: İki parmak (index+middle) yukari/aşaği hareket
 - **🔙 Geri/İleri**: İki parmak sola/sağa hareket
-- **🏠 Masaüstü**: Beş parmak aşağı hareket
-- **📱 Uygulamalar**: Beş parmak yukarı hareket
+- **🏠 Masaustu**: Beş parmak aşaği hareket
+- **📱 Uygulamalar**: Beş parmak yukari hareket
 
-### 🛡️ Güvenlik Gesture'ları
+### 🛡️ Guvenlik Gesture'lari
 
-- **✊ Yumruk**: Sistemi geçici devre dışı bırak
-- **✋ Açık Avuç**: İmleci dondur
+- **✊ Yumruk**: Sistemi geçici devre dişi birak
+- **✋ Açik Avuç**: İmleci dondur
 
-## ⚙️ Ayarlar ve Kontroller
+## Ayarlar ve Kontroller
 
-### Klavye Kısayolları
+### Klavye Kisayollari
 
-| Tuş | Fonksiyon |
-|-----|-----------|
-| `q` | Çıkış |
-| `c` | El kalibrasyonu başlat |
-| `t` | Tutorial modu aç/kapa |
-| `s` | Güvenli mod aç/kapa |
-| `f` | İmleci dondur/çöz |
-| `d` | Gesture kontrolü devre dışı/etkin |
-| `h` | Yardımı göster/gizle |
-| `SPACE` | Sistemi duraklat |
+| Tuş     | Fonksiyon                         |
+| ------- | --------------------------------- |
+| `q`     | Çikiş                             |
+| `c`     | El kalibrasyonu başlat            |
+| `t`     | Tutorial modu aç/kapa             |
+| `s`     | Guvenli mod aç/kapa               |
+| `f`     | İmleci dondur/çoz                 |
+| `d`     | Gesture kontrolu devre dişi/etkin |
+| `h`     | Yardimi goster/gizle              |
+| `SPACE` | Sistemi duraklat                  |
 
-### Görsel Göstergeler
+### Gorsel Gostergeler
 
 - 🟢 **Yeşil Nokta**: Gerçek fare pozisyonu
-- 🔵 **Mavi Nokta**: İşaret parmağı pozisyonu
-- 🔴 **Kırmızı Nokta**: Hedef pozisyon
-- **Confidence**: Gesture güven seviyesi (0.0-1.0)
-- **Kararlı**: Gesture'ın stabil olup olmadığı
-- **Kasıtlı**: Hareketin kasıtlı olup olmadığı
+- 🔵 **Mavi Nokta**: İşaret parmaği pozisyonu
+- 🔴 **Kirmizi Nokta**: Hedef pozisyon
+- **Confidence**: Gesture guven seviyesi (0.0-1.0)
+- **Kararli**: Gesture'in stabil olup olmadiği
+- **Kasitli**: Hareketin kasitli olup olmadiği
 
-## 🎯 Kullanım İpuçları
+## Kullanim İpuçlari
 
-### ✅ Doğru Kullanım
+### [✓] Doğru Kullanim
 
-1. **Yavaş ve Kasıtlı Hareketler**: Ani hareketlerden kaçının
-2. **Kalibrasyon**: İlk kullanımda mutlaka kalibre edin
-3. **Tutorial Modu**: Yeni gesture'ları önce tutorial modunda deneyin
-4. **Güvenli Mod**: Kritik çalışmalarda güvenli modu açık tutun
-5. **Dinlenme**: Uzun kullanımda ara verin
+1. **Yavaş ve Kasitli Hareketler**: Ani hareketlerden kaçinin
+2. **Kalibrasyon**: İlk kullanimda mutlaka kalibre edin
+3. **Tutorial Modu**: Yeni gesture'lari once tutorial modunda deneyin
+4. **Guvenli Mod**: Kritik çalişmalarda guvenli modu açik tutun
+5. **Dinlenme**: Uzun kullanimda ara verin
 
-### ❌ Yaygın Hatalar
+### [X] Yaygin Hatalar
 
-- **Çok Hızlı Hareket**: Sistem algılamayabilir
-- **Kalibrasyon Yapmama**: Hatalı algılamalara neden olur
-- **Kötü Işık**: El algılama zorlaşır
-- **Çok Yakın/Uzak**: Optimal mesafe 50-80 cm
-- **Arka Plan Karışıklığı**: Düz arka plan tercih edin
+- **Çok Hizli Hareket**: Sistem algilamayabilir
+- **Kalibrasyon Yapmama**: Hatali algilamalara neden olur
+- **Kotu Işik**: El algilama zorlaşir
+- **Çok Yakin/Uzak**: Optimal mesafe 50-80 cm
+- **Arka Plan Karişikliği**: Duz arka plan tercih edin
 
 ## 🔧 Sorun Giderme
 
-### Problem: El Algılanmıyor
+### Problem: El Algilanmiyor
 
-- **Çözüm 1**: Işığı artırın
-- **Çözüm 2**: Kamerayı temizleyin
-- **Çözüm 3**: Mesafeyi ayarlayın (50-80 cm)
-- **Çözüm 4**: Arka planı düzgünleştirin
+- **Çozum 1**: Işiği artirin
+- **Çozum 2**: Kamerayi temizleyin
+- **Çozum 3**: Mesafeyi ayarlayin (50-80 cm)
+- **Çozum 4**: Arka plani duzgunleştirin
 
-### Problem: Gesture Algılanmıyor
+### Problem: Gesture Algilanmiyor
 
-- **Çözüm 1**: `c` ile yeniden kalibre edin
-- **Çözüm 2**: Daha yavaş hareket edin
-- **Çözüm 3**: Tutorial modunda test edin
-- **Çözüm 4**: Güven seviyesini kontrol edin
+- **Çozum 1**: `c` ile yeniden kalibre edin
+- **Çozum 2**: Daha yavaş hareket edin
+- **Çozum 3**: Tutorial modunda test edin
+- **Çozum 4**: Guven seviyesini kontrol edin
 
-### Problem: İstenmeyen Tıklamalar
+### Problem: İstenmeyen Tiklamalar
 
-- **Çözüm 1**: Güvenli modu açın (`s`)
-- **Çözüm 2**: Cooldown süresini artırın
-- **Çözüm 3**: İmleci dondurarak test edin (`f`)
-- **Çözüm 4**: Sistemi duraklayın (`SPACE`)
+- **Çozum 1**: Guvenli modu açin (`s`)
+- **Çozum 2**: Cooldown suresini artirin
+- **Çozum 3**: İmleci dondurarak test edin (`f`)
+- **Çozum 4**: Sistemi duraklayin (`SPACE`)
 
-### Problem: Performans Düşük
+### Problem: Performans Duşuk
 
-- **Çözüm 1**: Diğer uygulamaları kapatın
-- **Çözüm 2**: Kamera çözünürlüğünü düşürün
-- **Çözüm 3**: Debug modunu kapatın
-- **Çözüm 4**: Python environment'ı optimize edin
+- **Çozum 1**: Diğer uygulamalari kapatin
+- **Çozum 2**: Kamera çozunurluğunu duşurun
+- **Çozum 3**: Debug modunu kapatin
+- **Çozum 4**: Python environment'i optimize edin
 
 ## 📊 Sistem Gereksinimleri
 
@@ -123,68 +123,69 @@ python gesture_control.py
 - 4GB RAM
 - Webcam
 
-### Önerilen
+### onerilen
 
 - Python 3.9+
 - 8GB RAM
 - 1080p Webcam
-- İyi aydınlatma
-- Düz arka plan
+- İyi aydinlatma
+- Duz arka plan
 
 ## ⚡ Performans Optimizasyonu
 
-### Ayarlar Dosyası (gesture_map.json)
+### Ayarlar Dosyasi (gesture_map.json)
 
 ```json
 {
   "settings": {
-    "smoothing": 0.3,          // Hareket yumuşaklığı (0.1-0.5)
-    "click_cooldown": 0.8,     // Tıklama arası süre (0.5-2.0)
-    "stability_required": true, // Kararlılık gerekli mi
-    "confidence_minimum": 0.8   // Minimum güven seviyesi
+    "smoothing": 0.3, // Hareket yumuşakliği (0.1-0.5)
+    "click_cooldown": 0.8, // Tiklama arasi sure (0.5-2.0)
+    "stability_required": true, // Kararlilik gerekli mi
+    "confidence_minimum": 0.8 // Minimum guven seviyesi
   }
 }
 ```
 
-### Hassasiyet Ayarları
+### Hassasiyet Ayarlari
 
-- **Yüksek Hassasiyet**: `smoothing: 0.1`, `confidence_minimum: 0.6`
+- **Yuksek Hassasiyet**: `smoothing: 0.1`, `confidence_minimum: 0.6`
 - **Dengeli**: `smoothing: 0.3`, `confidence_minimum: 0.8`
-- **Güvenli**: `smoothing: 0.5`, `confidence_minimum: 0.9`
+- **Guvenli**: `smoothing: 0.5`, `confidence_minimum: 0.9`
 
 ## 🆘 Acil Durum
 
 ### Sistem Dondu?
 
-1. `SPACE` tuşu ile duraklatın
-2. `d` tuşu ile devre dışı bırakın
-3. `q` tuşu ile çıkın
+1. `SPACE` tuşu ile duraklatin
+2. `d` tuşu ile devre dişi birakin
+3. `q` tuşu ile çikin
 4. Terminal'den `Ctrl+C`
 
-### Fare Kontrolü Kaybolduysa
+### Fare Kontrolu Kaybolduysa
 
-1. **Yumruk** yaparak devre dışı bırakın
+1. **Yumruk** yaparak devre dişi birakin
 2. `f` tuşu ile imleci dondurun
-3. Fiziksel fareyi kullanın
-4. Sistemi yeniden başlatın
+3. Fiziksel fareyi kullanin
+4. Sistemi yeniden başlatin
 
 ## 📞 Destek
 
-### Log Dosyaları
+### Log Dosyalari
 
-Sistem hataları terminal çıktısında görünür.
+Sistem hatalari terminal çiktisinda gorunur.
 
-### Test Araçları
+### Test Araçlari
 
 ```bash
-python test_gesture.py config      # Konfigürasyon test
+python test_gesture.py config      # Konfigurasyon test
 python test_gesture.py interactive # Interaktif test
 python test_gesture.py performance # Performans test
 ```
 
 ### İstatistikler
 
-Oturum sonunda detaylı istatistikler gösterilir.
+Oturum sonunda detayli istatistikler gosterilir.
 
 ---
-**💡 İpucu**: En iyi deneyim için sabırlı olun ve sistemi öğrenmeye zaman ayırın!
+
+**💡 İpucu**: En iyi deneyim için sabirli olun ve sistemi oğrenmeye zaman ayirin!

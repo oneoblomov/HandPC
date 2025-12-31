@@ -16,19 +16,19 @@ except ImportError:
 
 
 class TestActionHandler(unittest.TestCase):
-    """ActionHandler modülü için unit testler"""
+    """ActionHandler modulu için unit testler"""
     
     def setUp(self):
         """Her test için setup"""
         self.action_handler = ActionHandler()
         
     def tearDown(self):
-        """Her test sonrası cleanup"""
+        """Her test sonrasi cleanup"""
         self.action_handler = None
     
     @patch('pyautogui.click')
     def test_left_click_safe(self, mock_click):
-        """Güvenli sol tıklama testi"""
+        """Guvenli sol tiklama testi"""
         # Mock pyautogui.position to return a safe position
         with patch('pyautogui.position', return_value=(500, 400)):
             with patch('pyautogui.size', return_value=(1920, 1080)):
@@ -41,7 +41,7 @@ class TestActionHandler(unittest.TestCase):
     
     @patch('pyautogui.click')
     def test_right_click_safe(self, mock_click):
-        """Güvenli sağ tıklama testi"""
+        """Guvenli sağ tiklama testi"""
         with patch('pyautogui.position', return_value=(500, 400)):
             with patch('pyautogui.size', return_value=(1920, 1080)):
                 self.action_handler.safe_margin = 50
@@ -52,11 +52,11 @@ class TestActionHandler(unittest.TestCase):
                     mock_click.assert_called_once_with(button='right')
     
     def test_safe_mode_toggle(self):
-        """Güvenli mod açma/kapama testi"""
-        # Başlangıçta güvenli mod açık
+        """Guvenli mod açma/kapama testi"""
+        # Başlangiçta guvenli mod açik
         self.assertTrue(self.action_handler.safe_mode)
         
-        # Güvenli modu kapat
+        # Guvenli modu kapat
         self.action_handler.enable_safe_mode(False)
         self.assertFalse(self.action_handler.safe_mode)
         
@@ -65,17 +65,17 @@ class TestActionHandler(unittest.TestCase):
         self.assertTrue(self.action_handler.safe_mode)
     
     def test_position_safety_check(self):
-        """Pozisyon güvenlik kontrolü testi"""
+        """Pozisyon guvenlik kontrolu testi"""
         if hasattr(self.action_handler, '_is_position_safe'):
-            # Güvenli pozisyon
+            # Guvenli pozisyon
             safe_result = self.action_handler._is_position_safe(500, 400)
             self.assertTrue(safe_result)
             
-            # Güvenli olmayan pozisyonlar (ekran kenarları)
+            # Guvenli olmayan pozisyonlar (ekran kenarlari)
             unsafe_positions = [
                 (10, 400),    # Sol kenar
                 (1910, 400),  # Sağ kenar
-                (500, 10),    # Üst kenar
+                (500, 10),    # ust kenar
                 (500, 1070)   # Alt kenar
             ]
             
@@ -84,12 +84,12 @@ class TestActionHandler(unittest.TestCase):
                 self.assertFalse(unsafe_result)
     
     def test_action_safety_rate_limiting(self):
-        """Eylem hız sınırlama testi"""
+        """Eylem hiz sinirlama testi"""
         if hasattr(self.action_handler, '_is_action_safe'):
-            # İlk eylem güvenli olmalı
+            # İlk eylem guvenli olmali
             self.assertTrue(self.action_handler._is_action_safe('left_click'))
             
-            # Aynı eylemi hızlıca tekrarlama
+            # Ayni eylemi hizlica tekrarlama
             for _ in range(5):
                 result = self.action_handler._is_action_safe('left_click')
             
@@ -98,11 +98,11 @@ class TestActionHandler(unittest.TestCase):
             # Bu test platformdan platforma değişebilir
     
     def test_disabled_mode(self):
-        """Devre dışı modu testi"""
+        """Devre dişi modu testi"""
         # Normal durumda aktif
         self.assertFalse(self.action_handler.is_disabled)
         
-        # Devre dışı bırak
+        # Devre dişi birak
         if hasattr(self.action_handler, '_toggle_disabled_mode'):
             self.action_handler._toggle_disabled_mode()
             self.assertTrue(self.action_handler.is_disabled)
@@ -121,13 +121,13 @@ class TestActionHandler(unittest.TestCase):
             self.action_handler._toggle_cursor_freeze()
             self.assertTrue(self.action_handler.cursor_frozen)
             
-            # Çöz
+            # Çoz
             self.action_handler._toggle_cursor_freeze()
             self.assertFalse(self.action_handler.cursor_frozen)
     
     def test_drag_mode(self):
-        """Sürükleme modu testi"""
-        # Başlangıçta drag modu kapalı
+        """Surukleme modu testi"""
+        # Başlangiçta drag modu kapali
         self.assertFalse(self.action_handler.drag_mode)
         
         # Mock cursor position
@@ -158,7 +158,7 @@ class TestActionHandler(unittest.TestCase):
         """Durum raporlama testi"""
         status = self.action_handler.get_status()
         
-        # Temel durum alanları mevcut olmalı
+        # Temel durum alanlari mevcut olmali
         expected_fields = ['disabled', 'cursor_frozen', 'drag_mode', 'safe_mode']
         for field in expected_fields:
             self.assertIn(field, status)
@@ -167,12 +167,12 @@ class TestActionHandler(unittest.TestCase):
         """İstatistik raporlama testi"""
         stats = self.action_handler.get_stats()
         
-        # Temel istatistik alanları
+        # Temel istatistik alanlari
         self.assertIn('total_actions', stats)
         self.assertIsInstance(stats['total_actions'], int)
     
     def test_execute_action_with_mock_gesture(self):
-        """Mock gesture verisi ile eylem yürütme testi"""
+        """Mock gesture verisi ile eylem yurutme testi"""
         # Mock gesture verisi
         gesture_data = {
             'action': 'left_click',
@@ -187,29 +187,29 @@ class TestActionHandler(unittest.TestCase):
                 with patch('pyautogui.size', return_value=(1920, 1080)):
                     result = self.action_handler.execute_action(gesture_data, cursor_pos)
                     
-                    # Güvenli mod aktifse eylem bloklanabilir
+                    # Guvenli mod aktifse eylem bloklanabilir
                     if not self.action_handler.safe_mode or result:
-                        # Action execute edilmişse click çağrılmalı
+                        # Action execute edilmişse click çağrilmali
                         if result:
                             mock_click.assert_called()
     
     def test_action_safety_with_low_confidence(self):
-        """Düşük güvenle eylem güvenlik testi"""
-        # Düşük güvenli gesture
+        """Duşuk guvenle eylem guvenlik testi"""
+        # Duşuk guvenli gesture
         gesture_data = {
             'action': 'left_click',
             'type': 'click',
-            'confidence': 0.5,  # Düşük güven
+            'confidence': 0.5,  # Duşuk guven
             'stable': True
         }
         cursor_pos = (500, 400)
         
         result = self.action_handler.execute_action(gesture_data, cursor_pos)
-        # Düşük güvenli eylemler reddedilmeli
+        # Duşuk guvenli eylemler reddedilmeli
         self.assertFalse(result)
     
     def test_action_safety_with_unstable_gesture(self):
-        """Stabil olmayan gesture güvenlik testi"""
+        """Stabil olmayan gesture guvenlik testi"""
         # Stabil olmayan gesture
         gesture_data = {
             'action': 'left_click',
@@ -225,7 +225,7 @@ class TestActionHandler(unittest.TestCase):
     
     @patch('subprocess.Popen')
     def test_open_app_safe(self, mock_popen):
-        """Güvenli uygulama açma testi"""
+        """Guvenli uygulama açma testi"""
         if hasattr(self.action_handler, '_open_app_safe'):
             result = self.action_handler._open_app_safe('firefox')
             self.assertTrue(result)
@@ -233,21 +233,21 @@ class TestActionHandler(unittest.TestCase):
     
     @patch('pyautogui.scroll')
     def test_scroll_safe(self, mock_scroll):
-        """Güvenli kaydırma testi"""
+        """Guvenli kaydirma testi"""
         if hasattr(self.action_handler, '_scroll_safe'):
-            # Yukarı kaydırma
+            # Yukari kaydirma
             result = self.action_handler._scroll_safe('scroll_up')
             self.assertTrue(result)
             mock_scroll.assert_called_with(2)
             
-            # Aşağı kaydırma
+            # Aşaği kaydirma
             result = self.action_handler._scroll_safe('scroll_down')
             self.assertTrue(result)
             mock_scroll.assert_called_with(-2)
     
     @patch('pyautogui.hotkey')
     def test_navigation_safe(self, mock_hotkey):
-        """Güvenli navigasyon testi"""
+        """Guvenli navigasyon testi"""
         if hasattr(self.action_handler, '_navigate_safe'):
             # Geri gitme
             result = self.action_handler._navigate_safe('navigate_back')

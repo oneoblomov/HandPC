@@ -126,10 +126,10 @@ class HCIGestureService:
             else:
                 print("Performance monitor not available")
 
-            print("✅ Service components initialized")
+            print("[✓] Service components initialized")
 
         except Exception as e:
-            print(f"❌ Failed to initialize service components: {e}")
+            print(f"[X] Failed to initialize service components: {e}")
             self.status['stats']['errors'] += 1
 
     def _init_camera(self):
@@ -141,10 +141,10 @@ class HCIGestureService:
             if not self.camera.isOpened():
                 raise RuntimeError(f"Could not open camera {camera_index}")
 
-            print(f"✅ Camera initialized (index: {camera_index})")
+            print(f"[✓] Camera initialized (index: {camera_index})")
 
         except Exception as e:
-            print(f"❌ Failed to initialize camera: {e}")
+            print(f"[X] Failed to initialize camera: {e}")
             self.status['stats']['errors'] += 1
             raise
 
@@ -171,11 +171,11 @@ class HCIGestureService:
             self.running = True
             self.status['active'] = True
 
-            print("✅ HCI Gesture Service started")
+            print("[✓] HCI Gesture Service started")
             return True
 
         except Exception as e:
-            print(f"❌ Failed to start service: {e}")
+            print(f"[X] Failed to start service: {e}")
             self.status['stats']['errors'] += 1
             return False
 

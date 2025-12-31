@@ -1,56 +1,56 @@
-# Evrensel Kontrol Şeması (kodla uyumlu, öneri)
+# Evrensel Kontrol Şemasi (kodla uyumlu, oneri)
 
-Bu doküman, `gesture_detector.py` ve `action_handler.py` içindeki mevcut mantığa uygun, açık ve güvenli bir hareket şeması sunar.
+Bu dokuman, `gesture_detector.py` ve `action_handler.py` içindeki mevcut mantiğa uygun, açik ve guvenli bir hareket şemasi sunar.
 
 ## Temel prensipler
 
-- Basit ve tekrarlanabilir: sık kullanılan eylemler tek başparmak+işaret kombinasyonuna (pinch) atanır.
-- Güvenlik ön planda: ekran kenarı marginleri, eylem hız sınırlamaları ve stabilite kontrolleri uygulanır.
-- Modüler: güçlü eylemler drag veya çok parmak kombinasyonları ile ayrılır.
+- Basit ve tekrarlanabilir: sik kullanilan eylemler tek başparmak+işaret kombinasyonuna (pinch) atanir.
+- Guvenlik on planda: ekran kenari marginleri, eylem hiz sinirlamalari ve stabilite kontrolleri uygulanir.
+- Moduler: guçlu eylemler drag veya çok parmak kombinasyonlari ile ayrilir.
 
-Önerilen ve kodla örtüşen haritalama
+onerilen ve kodla ortuşen haritalama
 
 ### Tek parmak (başparmak + işaret = pinch)
 
-- Pinch (kısa kapan-aç): sol tıklama (`left_click`).
-- İki hızlı pinch (1s içinde): sağ tıklama (`right_click`).
-- Pinch hold + hareket: sürükle (drag_start, drag_move, drag_end). (Detect: pinch + orta parmak ile güçlü tutma -> drag)
-- Pinch ile imleç kontrolü: pinch aktifken `move_cursor(x,y, pinch_active=True)` ile imleç taşınır.
+- Pinch (kisa kapan-aç): sol tiklama (`left_click`).
+- İki hizli pinch (1s içinde): sağ tiklama (`right_click`).
+- Pinch hold + hareket: surukle (drag_start, drag_move, drag_end). (Detect: pinch + orta parmak ile guçlu tutma -> drag)
+- Pinch ile imleç kontrolu: pinch aktifken `move_cursor(x,y, pinch_active=True)` ile imleç taşinir.
 
-### Üç-parmak / drag-grip
+### uç-parmak / drag-grip
 
-- Pinch + orta parmak sıkışı (drag grip): `drag_start`, `drag_move`, `drag_end` olayları üretilir ve `action_handler` sürüklemeyi güvenli şekilde uygular.
+- Pinch + orta parmak sikişi (drag grip): `drag_start`, `drag_move`, `drag_end` olaylari uretilir ve `action_handler` suruklemeyi guvenli şekilde uygular.
 
 ### İki parmak
 
-- İki parmak yukarı/aşağı: kaydırma (`scroll_up` / `scroll_down`).
+- İki parmak yukari/aşaği: kaydirma (`scroll_up` / `scroll_down`).
 - İki parmak sola/sağa: gezinme (`navigate_back` / `navigate_forward`).
 
-### El pozları — sistem eylemleri
+### El pozlari — sistem eylemleri
 
-- Kapalı yumruk → açık el (fist → open): `win_key` — sistem uygulama menüsünü açar.
-- Win menüsü açıkken belirli el x konumuna göre uygulama seç: `open_app` (ör: `firefox`, `code`, `nautilus`, `gnome-terminal`, `gnome-calculator`).
+- Kapali yumruk → açik el (fist → open): `win_key` — sistem uygulama menusunu açar.
+- Win menusu açikken belirli el x konumuna gore uygulama seç: `open_app` (or: `firefox`, `code`, `nautilus`, `gnome-terminal`, `gnome-calculator`).
 
-### Çok parmak (beş parmak gibi) — öneri
+### Çok parmak (beş parmak gibi) — oneri
 
-- Beş parmak yukarı: uygulama değiştirici (`show_applications`).
-- Beş parmak aşağı: masaüstünü göster / tüm pencereleri küçült (`show_desktop`).
-- Beş parmak sola/sağa: çalışma alanı değiştirme (`workspace_left` / `workspace_right`).
+- Beş parmak yukari: uygulama değiştirici (`show_applications`).
+- Beş parmak aşaği: masaustunu goster / tum pencereleri kuçult (`show_desktop`).
+- Beş parmak sola/sağa: çalişma alani değiştirme (`workspace_left` / `workspace_right`).
 
-### Diğer yararlı eylemler
+### Diğer yararli eylemler
 
-- `toggle_mode`: gesture kontrolünü etkin/devre dışı bırak (güvenlik/kalibrasyon sırasında).
-- `freeze_cursor`: imleci dondur/çöz (kazara hareketleri önlemek için).
+- `toggle_mode`: gesture kontrolunu etkin/devre dişi birak (guvenlik/kalibrasyon sirasinda).
+- `freeze_cursor`: imleci dondur/çoz (kazara hareketleri onlemek için).
 
-## Güvenlik & davranış notları
+## Guvenlik & davraniş notlari
 
-- `gesture_detector` tarafında confidence ve stabilite atanıyor; `action_handler.execute_action` ek olarak confidence >= 0.7, stable gereksinimi ve safe_mode kontrolleri uyguluyor.
+- `gesture_detector` tarafinda confidence ve stabilite ataniyor; `action_handler.execute_action` ek olarak confidence >= 0.7, stable gereksinimi ve safe_mode kontrolleri uyguluyor.
 - `move_cursor` sadece `pinch_active=True` iken hareket eder.
-- Ekran kenarı için `safe_margin` (varsayılan 50px) dışına eylemler genelde engellenir.
-- Çok hızlı ardışık eylemler `max_actions_per_second` ile engellenir.
+- Ekran kenari için `safe_margin` (varsayilan 50px) dişina eylemler genelde engellenir.
+- Çok hizli ardişik eylemler `max_actions_per_second` ile engellenir.
 
-## Uyumluluk önerileri
+## Uyumluluk onerileri
 
-- Eğer başka bir hareket ekleyecekseniz, hem `gesture_detector.detect_gesture` içinde action ismini ve confidence/stable alanlarını ekleyin hem de `action_handler.execute_action` içinde o action'a karşılık gelen güvenli uygulamayı (örn. `_my_action_safe`) yazın.
+- Eğer başka bir hareket ekleyecekseniz, hem `gesture_detector.detect_gesture` içinde action ismini ve confidence/stable alanlarini ekleyin hem de `action_handler.execute_action` içinde o action'a karşilik gelen guvenli uygulamayi (orn. `_my_action_safe`) yazin.
 
-Ek: Bu şema, mevcut kod davranışıyla uyumludur; dilerseniz ben bunu README'a veya extension metadata'sına da yansıtacak küçük bir düzenleme yapabilirim.
+Ek: Bu şema, mevcut kod davranişiyla uyumludur; dilerseniz ben bunu README'a veya extension metadata'sina da yansitacak kuçuk bir duzenleme yapabilirim.

@@ -1,5 +1,5 @@
 """
-Core modüller - Ana gesture algılama ve eylem kontrolü
+Core moduller - Ana gesture algilama ve eylem kontrolu
 """
 
 from .gesture_detector import GestureDetector

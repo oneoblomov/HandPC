@@ -127,7 +127,7 @@ framework.addTest('Preferences Initialization', () => {
             
             // Create main page
             const page = new MockAdw.PreferencesPage({
-                title: 'HCI Ayarları',
+                title: 'HCI Ayarlari',
                 icon_name: 'input-gesture-symbolic',
             });
             
@@ -143,18 +143,18 @@ framework.addTest('Preferences Initialization', () => {
         _createMainSettings(page, settings) {
             const mainGroup = new MockAdw.PreferencesGroup({
                 title: 'Ana Ayarlar',
-                description: 'Temel gesture kontrol ayarları',
+                description: 'Temel gesture kontrol ayarlari',
             });
             
             this.tutorialRow = new MockAdw.SwitchRow({
                 title: 'Tutorial Modu',
-                subtitle: 'Güvenli test modu (gerçek eylemler çalıştırılmaz)',
+                subtitle: 'Guvenli test modu (gerçek eylemler çaliştirilmaz)',
             });
             mainGroup.add(this.tutorialRow);
             
             this.safeModeRow = new MockAdw.SwitchRow({
-                title: 'Güvenli Mod',
-                subtitle: 'İstenmeyen eylemleri önler',
+                title: 'Guvenli Mod',
+                subtitle: 'İstenmeyen eylemleri onler',
             });
             mainGroup.add(this.safeModeRow);
             
@@ -163,13 +163,13 @@ framework.addTest('Preferences Initialization', () => {
         
         _createSensitivitySettings(page, settings) {
             const sensitivityGroup = new MockAdw.PreferencesGroup({
-                title: 'Hassasiyet Ayarları',
-                description: 'Gesture algılama hassasiyeti',
+                title: 'Hassasiyet Ayarlari',
+                description: 'Gesture algilama hassasiyeti',
             });
             
             this.smoothingRow = new MockAdw.SpinRow({
-                title: 'İmleç Yumuşaklığı',
-                subtitle: 'Yüksek değer = daha yumuşak hareket',
+                title: 'İmleç Yumuşakliği',
+                subtitle: 'Yuksek değer = daha yumuşak hareket',
                 adjustment: new MockGtk.Adjustment({
                     lower: 0.1,
                     upper: 0.9,
@@ -186,13 +186,13 @@ framework.addTest('Preferences Initialization', () => {
         
         _createSecuritySettings(page, settings) {
             const securityGroup = new MockAdw.PreferencesGroup({
-                title: 'Güvenlik Ayarları',
-                description: 'İstenmeyen eylemleri önleme',
+                title: 'Guvenlik Ayarlari',
+                description: 'İstenmeyen eylemleri onleme',
             });
             
             this.cooldownRow = new MockAdw.SpinRow({
-                title: 'Click Bekleme Süresi',
-                subtitle: 'Clickler arası minimum süre (saniye)',
+                title: 'Click Bekleme Suresi',
+                subtitle: 'Clickler arasi minimum sure (saniye)',
                 adjustment: new MockGtk.Adjustment({
                     lower: 0.1,
                     upper: 2.0,
@@ -209,13 +209,13 @@ framework.addTest('Preferences Initialization', () => {
         
         _createCameraSettings(page, settings) {
             const cameraGroup = new MockAdw.PreferencesGroup({
-                title: 'Kamera Ayarları',
-                description: 'Kamera cihazı ayarları',
+                title: 'Kamera Ayarlari',
+                description: 'Kamera cihazi ayarlari',
             });
             
             this.cameraIndexRow = new MockAdw.SpinRow({
-                title: 'Kamera Cihazı',
-                subtitle: 'Kullanılacak kamera cihazı (0 = varsayılan)',
+                title: 'Kamera Cihazi',
+                subtitle: 'Kullanilacak kamera cihazi (0 = varsayilan)',
                 adjustment: new MockGtk.Adjustment({
                     lower: 0,
                     upper: 10,
@@ -237,13 +237,13 @@ framework.addTest('Preferences Initialization', () => {
             
             this.notificationsRow = new MockAdw.SwitchRow({
                 title: 'Bildirimler',
-                subtitle: 'Önemli olaylar için masaüstü bildirimleri',
+                subtitle: 'onemli olaylar için masaustu bildirimleri',
             });
             otherGroup.add(this.notificationsRow);
             
             this.logLevelRow = new MockAdw.ComboRow({
                 title: 'Log Seviyesi',
-                subtitle: 'Kayıt tutma detay seviyesi',
+                subtitle: 'Kayit tutma detay seviyesi',
                 model: new MockGtk.StringList(),
             });
             
@@ -275,14 +275,14 @@ framework.addTest('Preferences Window Creation', () => {
         
         fillPreferencesWindow(window) {
             const page = new MockAdw.PreferencesPage({
-                title: 'HCI Ayarları',
+                title: 'HCI Ayarlari',
                 icon_name: 'input-gesture-symbolic',
             });
             
             // Add some basic groups
             const mainGroup = new MockAdw.PreferencesGroup({
                 title: 'Ana Ayarlar',
-                description: 'Temel gesture kontrol ayarları',
+                description: 'Temel gesture kontrol ayarlari',
             });
             
             page.add(mainGroup);
@@ -295,7 +295,7 @@ framework.addTest('Preferences Window Creation', () => {
     const page = prefs.fillPreferencesWindow(mockWindow);
     
     framework.assertNotNull(page, 'Preferences page should be created');
-    framework.assertEqual(page.title, 'HCI Ayarları', 'Page title should be correct');
+    framework.assertEqual(page.title, 'HCI Ayarlari', 'Page title should be correct');
     framework.assertEqual(page.icon_name, 'input-gesture-symbolic', 'Page icon should be correct');
     framework.assertTrue(page.get_groups().length > 0, 'Page should have preference groups');
 });
@@ -387,36 +387,36 @@ framework.addTest('Preference Groups Structure', () => {
     const HCIPreferences = class {
         fillPreferencesWindow(window) {
             const page = new MockAdw.PreferencesPage({
-                title: 'HCI Ayarları',
+                title: 'HCI Ayarlari',
                 icon_name: 'input-gesture-symbolic',
             });
             
             // Main settings group
             const mainGroup = new MockAdw.PreferencesGroup({
                 title: 'Ana Ayarlar',
-                description: 'Temel gesture kontrol ayarları',
+                description: 'Temel gesture kontrol ayarlari',
             });
             
             mainGroup.add(new MockAdw.SwitchRow({
                 title: 'Tutorial Modu',
-                subtitle: 'Güvenli test modu'
+                subtitle: 'Guvenli test modu'
             }));
             
             mainGroup.add(new MockAdw.SwitchRow({
-                title: 'Güvenli Mod',
-                subtitle: 'İstenmeyen eylemleri önler'
+                title: 'Guvenli Mod',
+                subtitle: 'İstenmeyen eylemleri onler'
             }));
             
             page.add(mainGroup);
             
             // Sensitivity group
             const sensitivityGroup = new MockAdw.PreferencesGroup({
-                title: 'Hassasiyet Ayarları',
-                description: 'Gesture algılama hassasiyeti',
+                title: 'Hassasiyet Ayarlari',
+                description: 'Gesture algilama hassasiyeti',
             });
             
             sensitivityGroup.add(new MockAdw.SpinRow({
-                title: 'İmleç Yumuşaklığı',
+                title: 'İmleç Yumuşakliği',
                 adjustment: new MockGtk.Adjustment({ lower: 0.1, upper: 0.9, value: 0.3 })
             }));
             
@@ -424,12 +424,12 @@ framework.addTest('Preference Groups Structure', () => {
             
             // Security group
             const securityGroup = new MockAdw.PreferencesGroup({
-                title: 'Güvenlik Ayarları',
-                description: 'İstenmeyen eylemleri önleme',
+                title: 'Guvenlik Ayarlari',
+                description: 'İstenmeyen eylemleri onleme',
             });
             
             securityGroup.add(new MockAdw.SpinRow({
-                title: 'Click Bekleme Süresi',
+                title: 'Click Bekleme Suresi',
                 adjustment: new MockGtk.Adjustment({ lower: 0.1, upper: 2.0, value: 0.3 })
             }));
             
@@ -452,12 +452,12 @@ framework.addTest('Preference Groups Structure', () => {
     
     // Check sensitivity group
     const sensitivityGroup = groups[1];
-    framework.assertEqual(sensitivityGroup.title, 'Hassasiyet Ayarları', 'Sensitivity group title should be correct');
+    framework.assertEqual(sensitivityGroup.title, 'Hassasiyet Ayarlari', 'Sensitivity group title should be correct');
     framework.assertTrue(sensitivityGroup.get_rows().length > 0, 'Sensitivity group should have rows');
     
     // Check security group
     const securityGroup = groups[2];
-    framework.assertEqual(securityGroup.title, 'Güvenlik Ayarları', 'Security group title should be correct');
+    framework.assertEqual(securityGroup.title, 'Guvenlik Ayarlari', 'Security group title should be correct');
     framework.assertTrue(securityGroup.get_rows().length > 0, 'Security group should have rows');
 });
 
@@ -527,7 +527,7 @@ framework.addTest('Log Level Combo Box', () => {
     
     const logLevelRow = new MockAdw.ComboRow({
         title: 'Log Seviyesi',
-        subtitle: 'Kayıt tutma detay seviyesi',
+        subtitle: 'Kayit tutma detay seviyesi',
         model: stringList,
     });
     
@@ -568,7 +568,7 @@ framework.addTest('Preferences Error Handling', () => {
                 const settings = this.getSettings('org.gnome.shell.extensions.hci');
                 
                 const page = new MockAdw.PreferencesPage({
-                    title: 'HCI Ayarları',
+                    title: 'HCI Ayarlari',
                     icon_name: 'input-gesture-symbolic',
                 });
                 

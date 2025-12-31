@@ -58,18 +58,18 @@ class HCIIndicator extends PanelMenu.Button {
                 return this._settings.get_string(key);
             }
         } catch (e) {
-            log(`HCI: Ayar okuma hatası ${key}: ${e}`);
+            log(`HCI: Ayar okuma hatasi ${key}: ${e}`);
             return null;
         }
     }
 
     _onSettingsChanged() {
-        // Eğer servis çalışıyorsa, yeniden başlat
+        // Eğer servis çalişiyorsa, yeniden başlat
         if (this._currentProcess) {
-            log('HCI: Ayarlar değişti, servis yeniden başlatılıyor...');
-            this._showNotification('🔄 Yeniden Başlatılıyor', 'Ayar değişikliği nedeniyle servis yeniden başlatılıyor');
+            log('HCI: Ayarlar değişti, servis yeniden başlatiliyor...');
+            this._showNotification('Yeniden Başlatılıyor', 'Ayar değişikliği nedeniyle servis yeniden başlatılıyor');
             this._stopService(() => {
-                // Kısa bir bekleme sonrası yeniden başlat
+                // Kisa bir bekleme sonrasi yeniden başlat
                 GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => {
                     this._runLocalScript();
                     return false;
@@ -81,7 +81,7 @@ class HCIIndicator extends PanelMenu.Button {
     _stopService(callback) {
         if (this._currentProcess) {
             try {
-                // Python process'ini nazikçe sonlandır
+                // Python process'ini nazikçe sonlandir
                 const killCommand = `pkill -f "python3.*main.py"`;
                 GLib.spawn_command_line_async(killCommand);
                 
@@ -95,7 +95,7 @@ class HCIIndicator extends PanelMenu.Button {
                     });
                 }
             } catch (e) {
-                logError(e, 'HCI: Servis durdurma hatası');
+                logError(e, 'HCI: Servis durdurma hatasi');
             }
         } else if (callback) {
             callback();
@@ -106,31 +106,31 @@ class HCIIndicator extends PanelMenu.Button {
         try {
             log('HCI: Building menu...');
             
-            // Durum göstergesi - dinamik olarak güncellenecek
+            // Durum gostergesi - dinamik olarak guncellenecek
             this._statusItem = new PopupMenu.PopupMenuItem(this._getStatusText(), { reactive: false });
             this.menu.addMenuItem(this._statusItem);
 
             this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
 
-            // Ana çalıştırma butonu
-            this._runItem = new PopupMenu.PopupMenuItem('▶️ Gesture Servisini Başlat');
+            // Ana çaliştirma butonu
+            this._runItem = new PopupMenu.PopupMenuItem('Gesture Servisini Başlat');
             this._runItem.connect('activate', () => {
                 log('HCI: Run button clicked!');
                 try {
                     this._runLocalScript();
                 } catch (e) {
                     logError(e, 'HCI: Menu item activation failed');
-                    this._showNotification('❌ Hata', 'Menü eylemi başarısız');
+                    this._showNotification('Hata', 'Menü eylemi başarısız');
                 }
             });
             this.menu.addMenuItem(this._runItem);
             
             // Durdurma butonu
-            this._stopItem = new PopupMenu.PopupMenuItem('⏹️ Servisi Durdur');
+            this._stopItem = new PopupMenu.PopupMenuItem('Servisi Durdur');
             this._stopItem.connect('activate', () => {
                 log('HCI: Stop button clicked!');
                 this._stopService(() => {
-                    this._showNotification('⏹️ Durduruldu', 'Gesture servisi durduruldu');
+                    this._showNotification('Durduruldu', 'Gesture servisi durduruldu');
                     this._updateMenuState();
                 });
             });
@@ -138,7 +138,7 @@ class HCIIndicator extends PanelMenu.Button {
             
             this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
             
-            // Ayarlar önizlemesi
+            // Ayarlar onizlemesi
             this._settingsPreviewItem = new PopupMenu.PopupMenuItem(this._getSettingsPreview(), { reactive: false });
             this.menu.addMenuItem(this._settingsPreviewItem);
             
@@ -157,7 +157,7 @@ class HCIIndicator extends PanelMenu.Button {
             this.menu.addMenuItem(this._statusCheckItem);
             
             // Test bildirim butonu (debug)
-            this._testItem = new PopupMenu.PopupMenuItem('🔔 Test Bildirim');
+            this._testItem = new PopupMenu.PopupMenuItem('Test Bildirim');
             this._testItem.connect('activate', () => {
                 log('HCI: Test notification button clicked!');
                 this._showNotification('🧪 Test', 'Bu bir test bildirimidir');
@@ -172,21 +172,21 @@ class HCIIndicator extends PanelMenu.Button {
     }
 
     _updateMenuState() {
-        // Menü öğelerinin durumunu güncelle
+        // Menu oğelerinin durumunu guncelle
         const isRunning = this._currentProcess !== null;
         
         if (this._runItem) {
-            this._runItem.label.text = isRunning ? '🔄 Yeniden Başlat' : '▶️ Gesture Servisini Başlat';
+            this._runItem.label.text = isRunning ? 'Yeniden Başlat' : 'Gesture Servisini Başlat';
         }
-        
+
         if (this._stopItem) {
             this._stopItem.setSensitive(isRunning);
         }
-        
+
         if (this._statusItem) {
             this._statusItem.label.text = this._getStatusText();
         }
-        
+
         if (this._settingsPreviewItem) {
             this._settingsPreviewItem.label.text = this._getSettingsPreview();
         }
@@ -197,9 +197,9 @@ class HCIIndicator extends PanelMenu.Button {
         const tutorialMode = this._getSettingValue('tutorial-mode');
         const safeMode = this._getSettingValue('safe-mode');
         
-        let status = isRunning ? '🟢 Çalışıyor' : '🔴 Durdu';
+        let status = isRunning ? 'Çalişiyor' : 'Durdu';
         if (tutorialMode) status += ' (Tutorial)';
-        if (safeMode) status += ' (Güvenli)';
+        if (safeMode) status += ' (Guvenli)';
         
         return status;
     }
@@ -211,15 +211,15 @@ class HCIIndicator extends PanelMenu.Button {
             const smoothing = this._getSettingValue('smoothing-factor')?.toFixed(1) || '0.3';
             const camera = this._getSettingValue('camera-index') || 0;
             
-            return `⚙️ Tutorial:${tutorial} Safe:${safe} Smooth:${smoothing} Cam:${camera}`;
+            return `Tutorial:${tutorial} Safe:${safe} Smooth:${smoothing} Cam:${camera}`;
         } catch (e) {
-            return '⚙️ Ayarlar yüklenemedi';
+            return 'Ayarlar yuklenemedi';
         }
     }
 
     _runLocalScript() {
         try {
-            // Önce mevcut süreci durdur
+            // once mevcut sureci durdur
             this._stopService();
             
             // Get the script path
@@ -235,10 +235,10 @@ class HCIIndicator extends PanelMenu.Button {
                 throw new Error('run.sh script is not executable');
             }
             
-            // Ayarları environment variables olarak hazırla
+            // Ayarlari environment variables olarak hazirla
             const envVars = this._prepareEnvironmentVariables();
             
-            // Environment variables'ları string olarak birleştir
+            // Environment variables'lari string olarak birleştir
             let envString = '';
             for (const [key, value] of Object.entries(envVars)) {
                 envString += `export ${key}="${value}"; `;
@@ -250,27 +250,29 @@ class HCIIndicator extends PanelMenu.Button {
             log(`HCI: Executing command with settings: ${command}`);
             log(`HCI: Environment vars: ${JSON.stringify(envVars)}`);
             
-            // Execute the command
-            const [success, pid] = GLib.spawn_command_line_async(`bash -c '${command}'`);
-            
-            if (success) {
-                this._currentProcess = pid;
-                this._showNotification('✅ Başlatıldı', `Gesture hizmeti ayarlarla başlatıldı (PID: ${pid})`);
+            // Execute the command (spawn_command_line_async runs asynchronously and does not return a tuple)
+            try {
+                GLib.spawn_command_line_async(`bash -c '${command}'`);
+
+                // The script uses nohup and backgrounds itself, so we can't reliably obtain a PID here.
+                // Mark the service as running and update UI accordingly.
+                this._currentProcess = true;
+                this._showNotification('Başlatıldı', 'Gesture hizmeti ayarlarla başlatıldı');
                 this._updateMenuState();
-                log(`HCI: Gesture service started successfully with PID: ${pid}`);
-                
-                // 2 saniye sonra durum güncellemesi
+                log(`HCI: Gesture service start command executed`);
+
+                // 2 saniye sonra durum guncellemesi
                 GLib.timeout_add(GLib.PRIORITY_DEFAULT, 2000, () => {
                     this._updateMenuState();
                     return false;
                 });
-            } else {
-                throw new Error('Failed to start process');
+            } catch (e) {
+                throw new Error('Failed to execute start command: ' + e.message);
             }
             
         } catch (e) {
             logError(e, 'HCI: runLocalScript failed');
-            this._showNotification('❌ Hata', `Gesture hizmeti başlatılamadı: ${e.message}`);
+            this._showNotification('[X] Hata', `Gesture hizmeti başlatilamadi: ${e.message}`);
         }
     }
 
@@ -324,39 +326,39 @@ class HCIIndicator extends PanelMenu.Button {
             const pythonPath = GLib.build_filenamev([extensionDir, 'src_python', 'src', 'main.py']);
             
             // Check if files exist
-            let statusMessage = '📋 Sistem Durumu:\n';
+            let statusMessage = 'Sistem Durumu:\n';
             
             if (GLib.file_test(scriptPath, GLib.FileTest.EXISTS)) {
-                statusMessage += '✅ run.sh bulundu\n';
+                statusMessage += 'run.sh bulundu\n';
                 if (GLib.file_test(scriptPath, GLib.FileTest.IS_EXECUTABLE)) {
-                    statusMessage += '✅ run.sh çalıştırılabilir\n';
+                    statusMessage += 'run.sh çaliştirilabilir\n';
                 } else {
-                    statusMessage += '❌ run.sh çalıştırılabilir değil\n';
+                    statusMessage += 'run.sh çaliştirilabilir değil\n';
                 }
             } else {
-                statusMessage += '❌ run.sh bulunamadı\n';
+                statusMessage += 'run.sh bulunamadi\n';
             }
             
             if (GLib.file_test(pythonPath, GLib.FileTest.EXISTS)) {
-                statusMessage += '✅ main.py bulundu\n';
+                statusMessage += 'main.py bulundu\n';
             } else {
-                statusMessage += '❌ main.py bulunamadı\n';
+                statusMessage += 'main.py bulunamadi\n';
             }
             
             // Check environment
             const display = GLib.getenv('DISPLAY');
             if (display) {
-                statusMessage += `✅ DISPLAY: ${display}\n`;
+                statusMessage += `[✓] DISPLAY: ${display}\n`;
             } else {
-                statusMessage += '❌ DISPLAY değişkeni yok\n';
+                statusMessage += '[X] DISPLAY değişkeni yok\n';
             }
             
-            this._showNotification('📊 Sistem Durumu', statusMessage);
+            this._showNotification('Sistem Durumu', statusMessage);
             log(`HCI: System status checked: ${statusMessage}`);
             
         } catch (e) {
             logError(e, 'HCI: System status check failed');
-            this._showNotification('❌ Hata', 'Sistem durumu kontrol edilemedi');
+            this._showNotification('Hata', 'Sistem durumu kontrol edilemedi');
         }
     }
 
@@ -364,7 +366,7 @@ class HCIIndicator extends PanelMenu.Button {
         try {
             log('HCI: Indicator destroying...');
             
-            // Settings bağlantılarını temizle
+            // Settings bağlantilarini temizle
             if (this._settingsConnections) {
                 this._settingsConnections.forEach(connection => {
                     this._settings.disconnect(connection);
@@ -372,7 +374,7 @@ class HCIIndicator extends PanelMenu.Button {
                 this._settingsConnections = [];
             }
             
-            // Çalışan servisi durdur
+            // Çalişan servisi durdur
             this._stopService();
             
             super.destroy();

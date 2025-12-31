@@ -8,7 +8,7 @@ import time
 
 
 class MockLandmark:
-    """MediaPipe landmark'ı taklit eden mock sınıf"""
+    """MediaPipe landmark'i taklit eden mock sinif"""
     def __init__(self, x, y, z=0.0):
         self.x = x
         self.y = y
@@ -16,7 +16,7 @@ class MockLandmark:
 
 
 class TestGestureDetector(unittest.TestCase):
-    """GestureDetector modülü için unit testler"""
+    """GestureDetector modulu için unit testler"""
     
     def setUp(self):
         """Her test için setup"""
@@ -30,11 +30,11 @@ class TestGestureDetector(unittest.TestCase):
         }
     
     def tearDown(self):
-        """Her test sonrası cleanup"""
+        """Her test sonrasi cleanup"""
         self.detector = None
     
     def create_mock_hand_landmarks(self, finger_positions):
-        """Mock el landmark'ları oluştur
+        """Mock el landmark'lari oluştur
         finger_positions: {
             'wrist': (x, y),
             'thumb': (x, y),
@@ -44,10 +44,10 @@ class TestGestureDetector(unittest.TestCase):
             'pinky': (x, y)
         }
         """
-        # MediaPipe hand landmark sırasına göre
+        # MediaPipe hand landmark sirasina gore
         landmarks = [MockLandmark(0, 0)] * 21  # 21 landmark
         
-        # Temel pozisyonları ayarla
+        # Temel pozisyonlari ayarla
         if 'wrist' in finger_positions:
             landmarks[0] = MockLandmark(*finger_positions['wrist'])
         if 'thumb' in finger_positions:
@@ -71,17 +71,17 @@ class TestGestureDetector(unittest.TestCase):
         self.assertAlmostEqual(distance, 5.0, places=2)
     
     def test_pinch_detection(self):
-        """Pinch algılama testi"""
+        """Pinch algilama testi"""
         # Manuel kalibrasyon ile başla
         self.detector.hand_size = 0.2
         self.detector.is_calibrated = True
         self.detector.pinch_threshold = 0.05
         
-        # Pinch pozisyonu (başparmak ve işaret parmağı yakın)
+        # Pinch pozisyonu (başparmak ve işaret parmaği yakin)
         landmarks = self.create_mock_hand_landmarks({
             'wrist': (0.5, 0.5),
-            'thumb': (0.52, 0.48),  # Yakın pozisyon
-            'index': (0.53, 0.47),  # Yakın pozisyon
+            'thumb': (0.52, 0.48),  # Yakin pozisyon
+            'index': (0.53, 0.47),  # Yakin pozisyon
             'middle': (0.55, 0.45)
         })
         
@@ -89,7 +89,7 @@ class TestGestureDetector(unittest.TestCase):
         self.assertTrue(result['pinch_active'])
     
     def test_no_pinch_detection(self):
-        """Pinch algılanmama testi"""
+        """Pinch algilanmama testi"""
         # Manuel kalibrasyon
         self.detector.hand_size = 0.2
         self.detector.is_calibrated = True
@@ -107,7 +107,7 @@ class TestGestureDetector(unittest.TestCase):
         self.assertFalse(result['pinch_active'])
     
     def test_click_detection_sequence(self):
-        """Click algılama sekansı testi"""
+        """Click algilama sekansi testi"""
         # Manuel kalibrasyon
         self.detector.hand_size = 0.2
         self.detector.is_calibrated = True
@@ -130,7 +130,7 @@ class TestGestureDetector(unittest.TestCase):
         self.assertTrue(result2['pinch_active'])
         
         # 3. Tekrar normal pozisyon (click tetiklenmeli)
-        time.sleep(0.05)  # Kısa bekleme
+        time.sleep(0.05)  # Kisa bekleme
         landmarks3 = self.create_mock_hand_landmarks({
             'thumb': (0.4, 0.4),
             'index': (0.6, 0.3)
@@ -142,7 +142,7 @@ class TestGestureDetector(unittest.TestCase):
             self.assertIn(result3['action'], ['left_click', 'right_click'])
     
     def test_drag_detection(self):
-        """Drag (sürükleme) algılama testi"""
+        """Drag (surukleme) algilama testi"""
         # Manuel kalibrasyon
         self.detector.hand_size = 0.2
         self.detector.is_calibrated = True
@@ -152,7 +152,7 @@ class TestGestureDetector(unittest.TestCase):
         landmarks = self.create_mock_hand_landmarks({
             'thumb': (0.52, 0.48),
             'index': (0.53, 0.47),
-            'middle': (0.525, 0.475)  # 3 parmak yakın
+            'middle': (0.525, 0.475)  # 3 parmak yakin
         })
         
         result = self.detector.detect_gesture(landmarks)
@@ -160,7 +160,7 @@ class TestGestureDetector(unittest.TestCase):
     
     def test_calibration_system(self):
         """Kalibrasyon sistemi testi"""
-        # Başlangıçta kalibre edilmemiş olmalı
+        # Başlangiçta kalibre edilmemiş olmali
         self.assertFalse(self.detector.is_calibrated)
         
         # Mock kalibrasyon verisi
@@ -173,21 +173,21 @@ class TestGestureDetector(unittest.TestCase):
             'pinky': (0.6, 0.15)
         })
         
-        # Kalibrasyon çalıştır
+        # Kalibrasyon çaliştir
         result = self.detector.calibrate_hand(landmarks)
         
-        # Sonuç kontrol et (auto calibrator'ın başarılı olup olmadığına bağlı)
+        # Sonuç kontrol et (auto calibrator'in başarili olup olmadiğina bağli)
         if result:
             self.assertTrue(self.detector.is_calibrated)
             self.assertIsNotNone(self.detector.hand_size)
     
     def test_extended_fingers_count(self):
-        """Uzatılmış parmak sayma testi"""
+        """Uzatilmiş parmak sayma testi"""
         # Manuel kalibrasyon
         self.detector.hand_size = 0.2
         self.detector.is_calibrated = True
         
-        # Tüm parmaklar açık
+        # Tum parmaklar açik
         landmarks = self.create_mock_hand_landmarks({
             'wrist': (0.5, 0.7),
             'thumb': (0.3, 0.4),
@@ -198,7 +198,7 @@ class TestGestureDetector(unittest.TestCase):
         })
         
         count = self.detector._count_extended_fingers(landmarks)
-        self.assertGreaterEqual(count, 4)  # En az 4 parmak uzatılmış olmalı
+        self.assertGreaterEqual(count, 4)  # En az 4 parmak uzatilmiş olmali
     
     def test_gesture_stability(self):
         """Gesture stabilitesi testi"""
@@ -207,7 +207,7 @@ class TestGestureDetector(unittest.TestCase):
         self.detector.is_calibrated = True
         self.detector.pinch_threshold = 0.05
         
-        # Aynı pozisyonda birkaç frame
+        # Ayni pozisyonda birkaç frame
         landmarks = self.create_mock_hand_landmarks({
             'thumb': (0.52, 0.48),
             'index': (0.53, 0.47)
@@ -219,17 +219,17 @@ class TestGestureDetector(unittest.TestCase):
             results.append(result)
             time.sleep(0.01)
         
-        # Tüm sonuçlar benzer olmalı
+        # Tum sonuçlar benzer olmali
         for result in results:
             self.assertTrue(result['pinch_active'])
     
     def test_movement_threshold(self):
         """Hareket eşiği testi"""
-        # Küçük hareket (titreme)
+        # Kuçuk hareket (titreme)
         small_movement = 0.001
         self.assertFalse(self.detector._is_intentional_movement(small_movement))
         
-        # Büyük hareket (kasıtlı)
+        # Buyuk hareket (kasitli)
         large_movement = 0.05
         self.assertTrue(self.detector._is_intentional_movement(large_movement))
     
@@ -251,7 +251,7 @@ class TestGestureDetector(unittest.TestCase):
         
         result1 = self.detector.detect_gesture(fist_landmarks)
         
-        # Sonra açık el pozisyonu
+        # Sonra açik el pozisyonu
         time.sleep(0.1)
         open_landmarks = self.create_mock_hand_landmarks({
             'wrist': (0.5, 0.7),
@@ -264,7 +264,7 @@ class TestGestureDetector(unittest.TestCase):
         
         result2 = self.detector.detect_gesture(open_landmarks)
         
-        # Win tuşu action'ı bekleniyor
+        # Win tuşu action'i bekleniyor
         if result2['action']:
             self.assertEqual(result2['action'], 'win_key')
     
@@ -286,12 +286,12 @@ class TestGestureDetector(unittest.TestCase):
         self.assertIsInstance(status['is_calibrated'], bool)
     
     def test_reset_calibration(self):
-        """Kalibrasyon sıfırlama testi"""
+        """Kalibrasyon sifirlama testi"""
         # İlk kalibre et
         self.detector.is_calibrated = True
         self.detector.hand_size = 0.2
         
-        # Sıfırla
+        # Sifirla
         self.detector.reset_calibration()
         
         # Kontrol et

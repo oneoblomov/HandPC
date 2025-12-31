@@ -1,17 +1,17 @@
 #!/bin/bash
 # HCI Gesture Control Run Script
-# Bu script extension tarafından çağrılır ve environment variables ile ayarları alır
+# Bu script extension tarafindan çağrilir ve environment variables ile ayarlari alir
 
 source /home/kaplan/anaconda3/etc/profile.d/conda.sh
 conda activate base
 cd "$(dirname "$0")"
 
-# Extension'dan gelen environment variables'ları logla
-echo "🚀 HCI Gesture Control başlatılıyor..."
-echo "📅 Tarih: $(date)"
-echo "📂 Çalışma dizini: $(pwd)"
+# Extension'dan gelen environment variables'lari logla
+echo "HCI Gesture Control başlatiliyor..."
+echo "Tarih: $(date)"
+echo "Çalişma dizini: $(pwd)"
 
-# Environment variables'ları kontrol et ve varsayılanları ayarla
+# Environment variables'lari kontrol et ve varsayilanlari ayarla
 export HCI_TUTORIAL_MODE="${HCI_TUTORIAL_MODE:-false}"
 export HCI_SAFE_MODE="${HCI_SAFE_MODE:-true}"
 export HCI_AUTO_CALIBRATE="${HCI_AUTO_CALIBRATE:-true}"
@@ -25,7 +25,7 @@ export HCI_SHOW_NOTIFICATIONS="${HCI_SHOW_NOTIFICATIONS:-true}"
 export HCI_LOG_LEVEL="${HCI_LOG_LEVEL:-INFO}"
 export HCI_DEBUG_MODE="${HCI_DEBUG_MODE:-false}"
 
-echo "🎯 Ayarlar:"
+echo "   Ayarlar:"
 echo "   Tutorial Mode: $HCI_TUTORIAL_MODE"
 echo "   Safe Mode: $HCI_SAFE_MODE"
 echo "   Auto Calibrate: $HCI_AUTO_CALIBRATE"
@@ -38,11 +38,11 @@ echo "   Log Level: $HCI_LOG_LEVEL"
 mkdir -p logs
 
 # Python script'i başlat
-echo "🐍 Python script başlatılıyor..."
+echo "Python script başlatiliyor..."
 python3 -u "src/main.py" 2>&1 | tee "logs/hci_service.log"
 
 # Exit kodunu yakala
 EXIT_CODE=$?
-echo "🔚 HCI Gesture Control durdu (exit code: $EXIT_CODE)"
+echo "HCI Gesture Control durdu (exit code: $EXIT_CODE)"
 
 exit $EXIT_CODE

@@ -4,15 +4,15 @@ import os
 from unittest.mock import Mock, patch, MagicMock
 
 class TestIntegration(unittest.TestCase):
-    """Entegrasyon testleri - modüller arası işbirliği"""
+    """Entegrasyon testleri - moduller arasi işbirliği"""
     
     def setUp(self):
         """Her test için setup"""
         self.mock_mediapipe_available = True
         
     def test_gesture_to_action_flow(self):
-        """Gesture'dan action'a tam akış testi"""
-        # Mock modüller oluştur
+        """Gesture'dan action'a tam akiş testi"""
+        # Mock moduller oluştur
         mock_detector = Mock()
         mock_action_handler = Mock()
         
@@ -29,14 +29,14 @@ class TestIntegration(unittest.TestCase):
         mock_detector.detect_gesture.return_value = mock_gesture_result
         mock_action_handler.execute_action.return_value = True
         
-        # Test akışı
+        # Test akişi
         landmarks = [Mock() for _ in range(21)]  # 21 MediaPipe landmark
         
-        # Gesture algıla
+        # Gesture algila
         gesture_result = mock_detector.detect_gesture(landmarks)
         self.assertEqual(gesture_result['action'], 'left_click')
         
-        # Action yürüt
+        # Action yurut
         success = mock_action_handler.execute_action(
             gesture_result, 
             gesture_result['cursor_pos']
@@ -44,10 +44,10 @@ class TestIntegration(unittest.TestCase):
         self.assertTrue(success)
     
     def test_calibration_to_detection_flow(self):
-        """Kalibrasyondan gesture algılamaya akış testi"""
+        """Kalibrasyondan gesture algilamaya akiş testi"""
         mock_detector = Mock()
         
-        # Kalibrasyon süreci
+        # Kalibrasyon sureci
         mock_detector.is_calibrated = False
         mock_detector.calibrate_hand.return_value = True
         
@@ -58,7 +58,7 @@ class TestIntegration(unittest.TestCase):
         calibration_success = mock_detector.calibrate_hand(landmarks)
         self.assertTrue(calibration_success)
         
-        # Kalibrasyon sonrası algılama
+        # Kalibrasyon sonrasi algilama
         mock_detector.is_calibrated = True
         mock_gesture_result = {
             'action': 'right_click',
@@ -71,16 +71,16 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(gesture_result['action'], 'right_click')
     
     def test_safety_system_integration(self):
-        """Güvenlik sistemi entegrasyonu testi"""
+        """Guvenlik sistemi entegrasyonu testi"""
         mock_action_handler = Mock()
         
-        # Güvenli mod aktif
+        # Guvenli mod aktif
         mock_action_handler.safe_mode = True
         mock_action_handler.execute_action.side_effect = lambda gesture, pos: (
             gesture['confidence'] >= 0.7 and gesture.get('stable', False)
         )
         
-        # Güvenli gesture
+        # Guvenli gesture
         safe_gesture = {
             'action': 'left_click',
             'confidence': 0.9,
@@ -90,10 +90,10 @@ class TestIntegration(unittest.TestCase):
         result = mock_action_handler.execute_action(safe_gesture, (500, 400))
         self.assertTrue(result)
         
-        # Güvenli olmayan gesture
+        # Guvenli olmayan gesture
         unsafe_gesture = {
             'action': 'left_click',
-            'confidence': 0.5,  # Düşük güven
+            'confidence': 0.5,  # Duşuk guven
             'stable': False
         }
         
@@ -124,7 +124,7 @@ class TestIntegration(unittest.TestCase):
         self.assertTrue(mock_service.running)
         self.assertTrue(mock_service.status['active'])
         
-        # Frame işleme simülasyonu
+        # Frame işleme simulasyonu
         mock_service._process_frame.return_value = None
         mock_service.status['stats']['frames_processed'] = 1
         
@@ -132,11 +132,11 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(mock_service.status['stats']['frames_processed'], 1)
     
     def test_error_handling_integration(self):
-        """Hata yönetimi entegrasyonu testi"""
+        """Hata yonetimi entegrasyonu testi"""
         mock_detector = Mock()
         mock_action_handler = Mock()
         
-        # Detector hatası
+        # Detector hatasi
         mock_detector.detect_gesture.side_effect = Exception("Detection error")
         
         # Hata durumunda graceful handling
@@ -146,7 +146,7 @@ class TestIntegration(unittest.TestCase):
         except Exception as e:
             self.assertEqual(str(e), "Detection error")
         
-        # Action handler hatası
+        # Action handler hatasi
         mock_action_handler.execute_action.side_effect = Exception("Action error")
         
         try:
@@ -156,7 +156,7 @@ class TestIntegration(unittest.TestCase):
             self.assertEqual(str(e), "Action error")
     
     def test_config_propagation(self):
-        """Konfigürasyon yayılımı testi"""
+        """Konfigurasyon yayilimi testi"""
         # Mock config
         mock_config = {
             "settings": {
@@ -174,7 +174,7 @@ class TestIntegration(unittest.TestCase):
         mock_action_handler = Mock()
         mock_action_handler.safe_mode = mock_config["settings"]["safe_mode"]
         
-        # Config değerlerinin doğru aktarıldığını kontrol et
+        # Config değerlerinin doğru aktarildiğini kontrol et
         self.assertEqual(mock_detector.config["settings"]["smoothing"], 0.3)
         self.assertTrue(mock_action_handler.safe_mode)
     
@@ -252,7 +252,7 @@ class TestIntegration(unittest.TestCase):
         logger.addHandler(handler)
         logger.setLevel(logging.INFO)
         
-        # Log mesajları
+        # Log mesajlari
         logger.info("Test message 1")
         logger.warning("Test warning")
         logger.error("Test error")
@@ -268,11 +268,11 @@ class TestSystemRequirements(unittest.TestCase):
     """Sistem gereksinimleri testleri"""
     
     def test_python_version(self):
-        """Python versiyon kontrolü"""
+        """Python versiyon kontrolu"""
         self.assertGreaterEqual(sys.version_info[:2], (3, 6))
     
     def test_essential_imports(self):
-        """Temel kütüphane import kontrolü"""
+        """Temel kutuphane import kontrolu"""
         essential_modules = [
             'json', 'time', 'math', 'os', 'sys', 
             'threading', 'logging', 'unittest'
@@ -288,7 +288,7 @@ class TestSystemRequirements(unittest.TestCase):
             self.assertTrue(import_success, f"Essential module {module_name} not available")
     
     def test_optional_imports(self):
-        """Opsiyonel kütüphane kontrolü"""
+        """Opsiyonel kutuphane kontrolu"""
         optional_modules = {
             'cv2': 'OpenCV',
             'mediapipe': 'MediaPipe',
@@ -305,7 +305,7 @@ class TestSystemRequirements(unittest.TestCase):
             except ImportError:
                 pass
         
-        # En az bir opsiyonel modül mevcut olmalı
+        # En az bir opsiyonel modul mevcut olmali
         self.assertGreater(len(available_modules), 0, 
                           f"No optional modules available. Tried: {list(optional_modules.values())}")
 

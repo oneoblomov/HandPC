@@ -3,7 +3,7 @@ import time
 from typing import Dict, Tuple, Any
 import json
 
-# Import sorununu çözmek için absolute import kullan
+# Import sorununu çozmek için absolute import kullan
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -16,12 +16,12 @@ except ImportError:
 
 
 class GestureDetector:
-    """ULTRA OPTİMİZE GESTİCR DETECTOR - Akıllı filtreleme ve otomatik kalibrasyon"""
+    """ULTRA OPTİMİZE GESTİCR DETECTOR - Akilli filtreleme ve otomatik kalibrasyon"""
 
     def __init__(self, config_path: str = "config/gesture_map.json"):
         self.config = self._load_config(config_path)
 
-        # Yeni akıllı sistemler
+        # Yeni akilli sistemler
         self.auto_calibrator = AutoCalibrator()
         self.smart_cursor = SmartCursor()
 
@@ -44,10 +44,10 @@ class GestureDetector:
         self.frame_count = 0
         self.auto_calibration_frames = 0
 
-        print("🚀 Akıllı Gesture Detector başlatıldı - Otomatik kalibrasyon aktif")
+        print("Akilli Gesture Detector başlatildi - Otomatik kalibrasyon aktif")
 
     def _load_config(self, config_path: str) -> Dict:
-        """Konfigürasyon dosyasını yükle"""
+        """Konfigurasyon dosyasini yukle"""
         try:
             with open(config_path, 'r', encoding='utf-8') as f:
                 return json.load(f)
@@ -55,15 +55,15 @@ class GestureDetector:
             return {"settings": {"click_cooldown": 0.2}}
 
     def calibrate_hand(self, landmarks) -> bool:
-        """Akıllı otomatik kalibrasyon"""
+        """Akilli otomatik kalibrasyon"""
         if self.is_calibrated:
             return True
 
-        # Otomatik kalibrasyon başlatılmamışsa başlat
+        # Otomatik kalibrasyon başlatilmamişsa başlat
         if not self.auto_calibrator.is_calibrating:
             self.auto_calibrator.start_calibration()
 
-        # Kalibrasyon örneği ekle
+        # Kalibrasyon orneği ekle
         calibration_complete = self.auto_calibrator.add_calibration_sample(landmarks)
 
         if calibration_complete:
@@ -76,14 +76,14 @@ class GestureDetector:
                 self.movement_threshold = self.auto_calibrator.get_movement_threshold()
                 self.is_calibrated = True
 
-                # Smart cursor'a hassasiyet ayarlarını aktar
+                # Smart cursor'a hassasiyet ayarlarini aktar
                 self.smart_cursor.sensitivity_x = params['sensitivity_multiplier']
                 self.smart_cursor.sensitivity_y = params['sensitivity_multiplier']
 
-                print("✅ Akıllı kalibrasyon tamamlandı!")
-                print(f"   📏 El boyutu: {self.hand_size:.3f}")
-                print(f"   🎯 Pinch eşiği: {self.pinch_threshold:.3f}")
-                print(f"   📈 Hareket eşiği: {self.movement_threshold:.3f}")
+                print("[✓] Akilli kalibrasyon tamamlandi!")
+                print(f"   El boyutu: {self.hand_size:.3f}")
+                print(f"   Pinch eşiği: {self.pinch_threshold:.3f}")
+                print(f"   Hareket eşiği: {self.movement_threshold:.3f}")
                 print(f"   ⚡ Hassasiyet: {params['sensitivity_multiplier']:.2f}")
 
                 return True
@@ -91,24 +91,24 @@ class GestureDetector:
         return False
 
     def _distance(self, p1: Tuple[float, float], p2: Tuple[float, float]) -> float:
-        """İki nokta arası mesafe"""
+        """İki nokta arasi mesafe"""
         return math.hypot(p1[0] - p2[0], p1[1] - p2[1])
 
     def _is_intentional_movement(self, movement_magnitude: float) -> bool:
-        """Hareketin kasıtlı olup olmadığını kontrol et"""
+        """Hareketin kasitli olup olmadiğini kontrol et"""
         return movement_magnitude > self.movement_threshold
 
     def _is_precise_area(self, cursor_pos: Tuple[float, float]) -> bool:
-        """Cursor hassas alanda mı? (menüler, butonlar vs.)"""
+        """Cursor hassas alanda mi? (menuler, butonlar vs.)"""
         # Bu basit implementasyon - geliştirilmesi gerekebilir
         x, y = cursor_pos
-        # Ekran kenarları ve köşeler hassas kabul edilir
+        # Ekran kenarlari ve koşeler hassas kabul edilir
         return x < 100 or x > 1820 or y < 100 or y > 980
 
     def _count_extended_fingers(self, landmarks) -> int:
-        """Uzatılmış parmak sayısı"""
+        """Uzatilmiş parmak sayisi"""
         if not self.hand_size:
-            return 0  # Kalibrasyon yapılmamış
+            return 0  # Kalibrasyon yapilmamiş
 
         wrist = (landmarks[0].x, landmarks[0].y)
         finger_tips = [
@@ -127,7 +127,7 @@ class GestureDetector:
         return extended
 
     def detect_gesture(self, landmarks) -> Dict[str, Any]:
-        """YENİ AKILLI GESTURE SİSTEMİ - Titreme önleyici ve otomatik optimize"""
+        """YENİ AKILLI GESTURE SİSTEMİ - Titreme onleyici ve otomatik optimize"""
 
         self.frame_count += 1
 
@@ -148,9 +148,9 @@ class GestureDetector:
         index = (landmarks[8].x, landmarks[8].y)
         middle = (landmarks[12].x, landmarks[12].y)
 
-        # Akıllı cursor pozisyonu hesapla (titreme filtreli)
+        # Akilli cursor pozisyonu hesapla (titreme filtreli)
         cursor_pos = self.smart_cursor.process_movement(
-            index[0], index[1], 1920, 1080  # Varsayılan çözünürlük
+            index[0], index[1], 1920, 1080  # Varsayilan çozunurluk
         )
 
         # 1. PINCH DETECTION (dinamik eşik)
@@ -178,8 +178,8 @@ class GestureDetector:
 
         # 3. DRAG (TUTMA) İŞLEMLERİ - Geliştirilmiş
         if is_drag_grip and not getattr(self, 'prev_drag_grip', False):
-            # Drag başladı - stabilite kontrolü
-            print("✋ DRAG (Tutma) başladı - titreme korumalı")
+            # Drag başladi - stabilite kontrolu
+            print("✋ DRAG (Tutma) başladi - titreme korumali")
             result.update({
                 'type': 'drag',
                 'action': 'drag_start',
@@ -190,7 +190,7 @@ class GestureDetector:
 
         elif not is_drag_grip and getattr(self, 'prev_drag_grip', False):
             # Drag bitti
-            print("✋ DRAG (Tutma) bitti")
+            print("DRAG (Tutma) bitti")
             result.update({
                 'type': 'drag',
                 'action': 'drag_end',
@@ -208,26 +208,40 @@ class GestureDetector:
                 'stable': True
             })
 
-        # 4. CLICK İŞLEMLERİ - Geliştirilmiş titreme kontrolü
+        # 4. CLICK İŞLEMLERİ - Geliştirilmiş titreme kontrolu
         elif is_pinch and not self.prev_pinch and not is_drag_grip:
-            # Normal pinch başladı
+            # Normal pinch başladi - başlangiç değerlerini kaydet
+            self.pinch_start_distance = pinch_distance
+            self.pinch_start_time = current_time
             if self._is_intentional_movement(pinch_distance):
-                print(f"📌 Kasıtlı click pinch başladı (mesafe: {pinch_distance:.3f})")
+                print(f"Kasitli click pinch başladi (mesafe: {pinch_distance:.3f})")
 
         elif not is_pinch and self.prev_pinch and not is_drag_grip:
             # Pinch bitti - click eventi
 
-            # Gelişmiş cooldown kontrolü
+            # Gelişmiş cooldown kontrolu
             min_cooldown = 0.1 if self._is_precise_area(cursor_pos) else 0.15
             if current_time - self.last_action_time < min_cooldown:
-                print("⏱️ Click çok hızlı - titreme koruması aktif")
+                print("⏱️ Click çok hizli - titreme korumasi aktif")
                 self.prev_pinch = is_pinch
                 self.prev_drag_grip = is_drag_grip
                 return result
 
-            # Hareket büyüklüğü kontrolü
-            if not self._is_intentional_movement(self.pinch_threshold - pinch_distance):
-                print("🚫 Titreme algılandı - click iptal edildi")
+            # Titreme kontrolu - pinch açilma mesafesi
+            is_valid_click = True
+            if hasattr(self, 'pinch_start_distance'):
+                # Pinch açilma mesafesi kontrolu
+                open_distance = pinch_distance - self.pinch_start_distance
+                if abs(open_distance) < self.movement_threshold:
+                    print(f"Titreme algilandi - click iptal edildi (açilma: {open_distance:.3f})")
+                    is_valid_click = False
+            else:
+                # Fallback - basit mesafe kontrolu
+                if pinch_distance < self.pinch_threshold + self.movement_threshold:
+                    print("Titreme algilandi - click iptal edildi (fallback)")
+                    is_valid_click = False
+
+            if not is_valid_click:
                 self.prev_pinch = is_pinch
                 self.prev_drag_grip = is_drag_grip
                 return result
@@ -248,13 +262,13 @@ class GestureDetector:
             # 1.0 saniye içinde 2+ click = SAĞ TIK
             if len(self.pinch_events) >= 2:
                 action = "right_click"
-                print(f"👍 SAĞ TIK algılandı ({len(self.pinch_events)} stabil click)")
+                print(f"SAĞ TIK algilandi ({len(self.pinch_events)} stabil click)")
                 self.pinch_events = []  # Temizle
 
             # Tek click = SOL TIK
             else:
                 action = "left_click"
-                print("👆 SOL TIK algılandı (tek stabil click)")
+                print("SOL TIK algilandi (tek stabil click)")
 
             if action:
                 result.update({
@@ -265,55 +279,59 @@ class GestureDetector:
                 })
                 self.last_action_time = current_time
 
-        # 5. WIN TUŞU + APP SEÇME SİSTEMİ - Değişiklik yok
+        # 5. WIN TUŞU + APP SEÇME SİSTEMİ - Win menusu aç ve fare imleci konumlandir
         extended_fingers = self._count_extended_fingers(landmarks)
         current_pose = "fist" if extended_fingers <= 1 else ("open" if extended_fingers >= 4 else "partial")
 
-        # Win tuşu mantığı
+        # Win tuşu mantiği
         if (self.prev_hand_pose == "fist" and current_pose == "open" and
                 current_time - self.last_win_time > 1.0):
 
-            # İlk açılma = Win menüsü aç
+            # İlk açilma = Win menusu aç ve fare imleci konumlandir
             if not getattr(self, 'win_menu_open', False):
+                # Elin orta kismina gore fare imleci konumlandir
+                hand_center_x = (thumb[0] + index[0] + middle[0]) / 3
+                hand_center_y = (thumb[1] + index[1] + middle[1]) / 3
+
+                # Win menusu için cursor pozisyonunu guncelle
+                win_cursor_pos = self.smart_cursor.process_movement(
+                    hand_center_x, hand_center_y, 1920, 1080
+                )
+
                 result.update({
                     'type': 'system',
                     'action': 'win_key',
                     'confidence': 0.9,
-                    'stable': True
+                    'stable': True,
+                    'cursor_pos': win_cursor_pos  # Win menusunde imleç konumlandir
                 })
                 self.win_menu_open = True
                 self.win_open_time = current_time
-                print("✊→✋ WIN MENÜSÜ açıldı")
+                print("WIN MENuSu açildi - fare imleci konumlandirildi")
 
         elif (current_pose == "fist" and self.prev_hand_pose == "open" and
               getattr(self, 'win_menu_open', False)):
 
-            # İkinci kapanma = App seç ve aç
+            # İkinci kapanma = Sol tiklama ile uygulama seç
             if current_time - getattr(self, 'win_open_time', 0) > 0.5:
-
-                # El pozisyonuna göre app seçimi
-                hand_center_x = (thumb[0] + index[0] + middle[0]) / 3
-                app_selection = self._select_app_by_position(hand_center_x)
-
                 result.update({
-                    'type': 'system',
-                    'action': 'open_app',
+                    'type': 'click',
+                    'action': 'left_click',
                     'confidence': 0.9,
-                    'data': {'app': app_selection},
                     'stable': True
                 })
 
                 self.win_menu_open = False
                 self.last_win_time = current_time
-                print(f"✊ APP SEÇİLDİ: {app_selection}")
+                print("SOL TIKLAMA - uygulama seçildi")
 
-        # Win menüsü timeout (3 saniye)
+        # Win menusu timeout (3 saniye)
         if (getattr(self, 'win_menu_open', False) and
                 current_time - getattr(self, 'win_open_time', 0) > 3.0):
             self.win_menu_open = False
-            print("⏰ Win menüsü timeout")
+            print("Win menusu timeout")
 
-        # State güncellemeleri
+        # State guncellemeleri
         self.prev_pinch = is_pinch
         self.prev_drag_grip = is_drag_grip
         self.prev_hand_pose = current_pose
@@ -321,8 +339,8 @@ class GestureDetector:
         return result
 
     def _select_app_by_position(self, hand_x: float) -> str:
-        """El pozisyonuna göre uygulama seçimi"""
-        # Ekranı 5 bölgeye ayır
+        """El pozisyonuna gore uygulama seçimi"""
+        # Ekrani 5 bolgeye ayir
         if hand_x < 0.2:
             return "firefox"  # Web browser
         elif hand_x < 0.4:
@@ -336,8 +354,8 @@ class GestureDetector:
 
     def should_execute_action(self, gesture_type: str, action: str,
                               confidence: float = 0.0, stable: bool = False) -> bool:
-        """Eylem yürütme onayı - basit"""
-        return confidence >= 0.8  # Sadece güven kontrolü
+        """Eylem yurutme onayi - basit"""
+        return confidence >= 0.8  # Sadece guven kontrolu
 
     def get_calibration_status(self) -> Dict[str, Any]:
         """Kalibrasyon durumu"""
@@ -355,17 +373,17 @@ class GestureDetector:
         }
 
     def reset_calibration(self):
-        """Kalibrasyon sıfırla"""
+        """Kalibrasyon sifirla"""
         self.is_calibrated = False
         self.hand_size = None
         self.pinch_events = []
         self.auto_calibration_frames = 0
 
-        # Akıllı sistemleri sıfırla
+        # Akilli sistemleri sifirla
         self.auto_calibrator = AutoCalibrator()
         self.smart_cursor.reset()
 
-        print("🔄 Akıllı kalibrasyon sistemi sıfırlandı")
+        print(" Akilli kalibrasyon sistemi sifirlandi")
 
     def get_performance_stats(self) -> Dict[str, Any]:
         """Performans istatistikleri"""

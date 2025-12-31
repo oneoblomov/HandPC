@@ -62,7 +62,7 @@ framework.addTest('Extension Initialization', () => {
         
         _createMenu() {
             this._toggleItem = new MockGnomeShell.PopupMenu.PopupSwitchMenuItem('Gesture Control', false);
-            this._statusItem = new MockGnomeShell.PopupMenu.PopupMenuItem('Durum: Kapalı', { reactive: false });
+            this._statusItem = new MockGnomeShell.PopupMenu.PopupMenuItem('Durum: Kapali', { reactive: false });
             this._calibrateItem = new MockGnomeShell.PopupMenu.PopupMenuItem('El Kalibrasyonu');
         }
         
@@ -205,7 +205,7 @@ framework.addTest('Menu Creation and Structure', () => {
             this.menu.addMenuItem(new MockGnomeShell.PopupMenu.PopupSeparatorMenuItem());
             
             // Status
-            this._statusItem = new MockGnomeShell.PopupMenu.PopupMenuItem('Durum: Kapalı', { reactive: false });
+            this._statusItem = new MockGnomeShell.PopupMenu.PopupMenuItem('Durum: Kapali', { reactive: false });
             this.menu.addMenuItem(this._statusItem);
             
             // Calibration
@@ -217,7 +217,7 @@ framework.addTest('Menu Creation and Structure', () => {
             this.menu.addMenuItem(this._tutorialItem);
             
             // Safe mode
-            this._safeModeItem = new MockGnomeShell.PopupMenu.PopupSwitchMenuItem('Güvenli Mod', true);
+            this._safeModeItem = new MockGnomeShell.PopupMenu.PopupSwitchMenuItem('Guvenli Mod', true);
             this.menu.addMenuItem(this._safeModeItem);
         }
     };
@@ -306,8 +306,8 @@ framework.addTest('Status Updates and Indicators', () => {
                 icon_name: 'input-gesture-symbolic',
                 style_class: 'system-status-icon'
             });
-            this._statusItem = new MockGnomeShell.PopupMenu.PopupMenuItem('Durum: Kapalı', { reactive: false });
-            this._logItem = new MockGnomeShell.PopupMenu.PopupMenuItem('Log: Hazır', { reactive: false });
+            this._statusItem = new MockGnomeShell.PopupMenu.PopupMenuItem('Durum: Kapali', { reactive: false });
+            this._logItem = new MockGnomeShell.PopupMenu.PopupMenuItem('Log: Hazir', { reactive: false });
         }
         
         _updateStatus(status, color) {

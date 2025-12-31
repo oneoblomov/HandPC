@@ -27,7 +27,7 @@
       <description>Automatically calibrate hand detection on startup</description>
     </key>
     
-    <!-- Hassasiyet ayarları -->
+    <!-- Hassasiyet ayarlari -->
     <key name="smoothing-factor" type="d">
       <default>0.3</default>
       <range min="0.1" max="0.9"/>
@@ -49,7 +49,7 @@
       <description>Minimum confidence level for gesture recognition</description>
     </key>
     
-    <!-- Güvenlik ayarları -->
+    <!-- Guvenlik ayarlari -->
     <key name="click-cooldown" type="d">
       <default>0.3</default>
       <range min="0.1" max="2.0"/>
@@ -71,7 +71,7 @@
       <description>Safe margin from screen edges (pixels)</description>
     </key>
     
-    <!-- Kamera ayarları -->
+    <!-- Kamera ayarlari -->
     <key name="camera-index" type="i">
       <default>0</default>
       <range min="0" max="10"/>
@@ -86,7 +86,7 @@
       <description>Camera frames per second</description>
     </key>
     
-    <!-- Görsel ayarlar -->
+    <!-- Gorsel ayarlar -->
     <key name="show-notifications" type="b">
       <default>true</default>
       <summary>Show Notifications</summary>
@@ -124,14 +124,14 @@
       <description>Gesture pattern for drag and drop</description>
     </key>
     
-    <!-- Uygulama kısayolları -->
+    <!-- Uygulama kisayollari -->
     <key name="app-shortcuts" type="as">
       <default>["firefox", "code", "nautilus", "gnome-terminal", "gnome-calculator"]</default>
       <summary>Application Shortcuts</summary>
       <description>Applications that can be opened via gestures</description>
     </key>
     
-    <!-- Devre dışı bırakılacak özellikler -->
+    <!-- Devre dişi birakilacak ozellikler -->
     <key name="disabled-features" type="as">
       <default>["zoom", "scroll"]</default>
       <summary>Disabled Features</summary>

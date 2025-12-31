@@ -9,7 +9,7 @@ export default class HCIPreferences extends ExtensionPreferences {
     
     // Ana sayfa
     const page = new Adw.PreferencesPage({
-        title: 'HCI Ayarları',
+        title: 'HCI Ayarlari',
         icon_name: 'input-gesture-symbolic',
     });
     window.add(page);
@@ -17,22 +17,22 @@ export default class HCIPreferences extends ExtensionPreferences {
     // Ana ayarlar grubu
     const mainGroup = new Adw.PreferencesGroup({
         title: 'Ana Ayarlar',
-        description: 'Temel gesture kontrol ayarları',
+        description: 'Temel gesture kontrol ayarlari',
     });
     page.add(mainGroup);
     
     // Tutorial modu
     const tutorialRow = new Adw.SwitchRow({
         title: 'Tutorial Modu',
-        subtitle: 'Güvenli test modu (gerçek eylemler çalıştırılmaz)',
+        subtitle: 'Guvenli test modu (gerçek eylemler çaliştirilmaz)',
     });
     mainGroup.add(tutorialRow);
     settings.bind('tutorial-mode', tutorialRow, 'active', Gio.SettingsBindFlags.DEFAULT);
     
-    // Güvenli mod
+    // Guvenli mod
     const safeModeRow = new Adw.SwitchRow({
-        title: 'Güvenli Mod',
-        subtitle: 'İstenmeyen eylemleri önler',
+        title: 'Guvenli Mod',
+        subtitle: 'İstenmeyen eylemleri onler',
     });
     mainGroup.add(safeModeRow);
     settings.bind('safe-mode', safeModeRow, 'active', Gio.SettingsBindFlags.DEFAULT);
@@ -40,22 +40,22 @@ export default class HCIPreferences extends ExtensionPreferences {
     // Otomatik kalibrasyon
     const autoCalibrateRow = new Adw.SwitchRow({
         title: 'Otomatik Kalibrasyon',
-        subtitle: 'Başlangıçta otomatik el kalibrasyonu',
+        subtitle: 'Başlangiçta otomatik el kalibrasyonu',
     });
     mainGroup.add(autoCalibrateRow);
     settings.bind('auto-calibrate', autoCalibrateRow, 'active', Gio.SettingsBindFlags.DEFAULT);
     
-    // Hassasiyet ayarları grubu
+    // Hassasiyet ayarlari grubu
     const sensitivityGroup = new Adw.PreferencesGroup({
-        title: 'Hassasiyet Ayarları',
-        description: 'Gesture algılama hassasiyeti',
+        title: 'Hassasiyet Ayarlari',
+        description: 'Gesture algilama hassasiyeti',
     });
     page.add(sensitivityGroup);
     
-    // Cursor yumuşaklığı
+    // Cursor yumuşakliği
     const smoothingRow = new Adw.SpinRow({
-        title: 'İmleç Yumuşaklığı',
-        subtitle: 'Yüksek değer = daha yumuşak hareket',
+        title: 'İmleç Yumuşakliği',
+        subtitle: 'Yuksek değer = daha yumuşak hareket',
         adjustment: new Gtk.Adjustment({
             lower: 0.1,
             upper: 0.9,
@@ -70,7 +70,7 @@ export default class HCIPreferences extends ExtensionPreferences {
     // Pinch hassasiyeti
     const pinchRow = new Adw.SpinRow({
         title: 'Pinch Hassasiyeti',
-        subtitle: 'Düşük değer = daha hassas',
+        subtitle: 'Duşuk değer = daha hassas',
         adjustment: new Gtk.Adjustment({
             lower: 0.01,
             upper: 0.2,
@@ -82,10 +82,10 @@ export default class HCIPreferences extends ExtensionPreferences {
     sensitivityGroup.add(pinchRow);
     settings.bind('pinch-threshold', pinchRow, 'value', Gio.SettingsBindFlags.DEFAULT);
     
-    // Minimum güven
+    // Minimum guven
     const confidenceRow = new Adw.SpinRow({
-        title: 'Minimum Güven Seviyesi',
-        subtitle: 'Gesture algılama için minimum güven',
+        title: 'Minimum Guven Seviyesi',
+        subtitle: 'Gesture algilama için minimum guven',
         adjustment: new Gtk.Adjustment({
             lower: 0.5,
             upper: 0.95,
@@ -97,17 +97,17 @@ export default class HCIPreferences extends ExtensionPreferences {
     sensitivityGroup.add(confidenceRow);
     settings.bind('confidence-minimum', confidenceRow, 'value', Gio.SettingsBindFlags.DEFAULT);
     
-    // Güvenlik ayarları grubu
+    // Guvenlik ayarlari grubu
     const securityGroup = new Adw.PreferencesGroup({
-        title: 'Güvenlik Ayarları',
-        description: 'İstenmeyen eylemleri önleme',
+        title: 'Guvenlik Ayarlari',
+        description: 'İstenmeyen eylemleri onleme',
     });
     page.add(securityGroup);
     
-    // Click bekleme süresi
+    // Click bekleme suresi
     const cooldownRow = new Adw.SpinRow({
-        title: 'Click Bekleme Süresi',
-        subtitle: 'Clickler arası minimum süre (saniye)',
+        title: 'Click Bekleme Suresi',
+        subtitle: 'Clickler arasi minimum sure (saniye)',
         adjustment: new Gtk.Adjustment({
             lower: 0.1,
             upper: 2.0,
@@ -119,10 +119,10 @@ export default class HCIPreferences extends ExtensionPreferences {
     securityGroup.add(cooldownRow);
     settings.bind('click-cooldown', cooldownRow, 'value', Gio.SettingsBindFlags.DEFAULT);
     
-    // Maksimum eylem sayısı
+    // Maksimum eylem sayisi
     const maxActionsRow = new Adw.SpinRow({
-        title: 'Saniye Başı Max Eylem',
-        subtitle: 'Saniyede maksimum eylem sayısı',
+        title: 'Saniye Başi Max Eylem',
+        subtitle: 'Saniyede maksimum eylem sayisi',
         adjustment: new Gtk.Adjustment({
             lower: 1,
             upper: 10,
@@ -133,10 +133,10 @@ export default class HCIPreferences extends ExtensionPreferences {
     securityGroup.add(maxActionsRow);
     settings.bind('max-actions-per-second', maxActionsRow, 'value', Gio.SettingsBindFlags.DEFAULT);
     
-    // Ekran kenarı mesafesi
+    // Ekran kenari mesafesi
     const marginRow = new Adw.SpinRow({
-        title: 'Ekran Kenarı Mesafesi',
-        subtitle: 'Ekran kenarlarından güvenli mesafe (piksel)',
+        title: 'Ekran Kenari Mesafesi',
+        subtitle: 'Ekran kenarlarindan guvenli mesafe (piksel)',
         adjustment: new Gtk.Adjustment({
             lower: 10,
             upper: 200,
@@ -147,17 +147,17 @@ export default class HCIPreferences extends ExtensionPreferences {
     securityGroup.add(marginRow);
     settings.bind('screen-edge-margin', marginRow, 'value', Gio.SettingsBindFlags.DEFAULT);
     
-    // Kamera ayarları grubu
+    // Kamera ayarlari grubu
     const cameraGroup = new Adw.PreferencesGroup({
-        title: 'Kamera Ayarları',
-        description: 'Kamera cihazı ayarları',
+        title: 'Kamera Ayarlari',
+        description: 'Kamera cihazi ayarlari',
     });
     page.add(cameraGroup);
     
     // Kamera indeksi
     const cameraIndexRow = new Adw.SpinRow({
-        title: 'Kamera Cihazı',
-        subtitle: 'Kullanılacak kamera cihazı (0 = varsayılan)',
+        title: 'Kamera Cihazi',
+        subtitle: 'Kullanilacak kamera cihazi (0 = varsayilan)',
         adjustment: new Gtk.Adjustment({
             lower: 0,
             upper: 10,
@@ -171,7 +171,7 @@ export default class HCIPreferences extends ExtensionPreferences {
     // Kamera FPS
     const fpsRow = new Adw.SpinRow({
         title: 'Kamera FPS',
-        subtitle: 'Saniyedeki frame sayısı',
+        subtitle: 'Saniyedeki frame sayisi',
         adjustment: new Gtk.Adjustment({
             lower: 15,
             upper: 60,
@@ -192,7 +192,7 @@ export default class HCIPreferences extends ExtensionPreferences {
     // Bildirimler
     const notificationsRow = new Adw.SwitchRow({
         title: 'Bildirimler',
-        subtitle: 'Önemli olaylar için masaüstü bildirimleri',
+        subtitle: 'onemli olaylar için masaustu bildirimleri',
     });
     otherGroup.add(notificationsRow);
     settings.bind('show-notifications', notificationsRow, 'active', Gio.SettingsBindFlags.DEFAULT);
@@ -200,7 +200,7 @@ export default class HCIPreferences extends ExtensionPreferences {
     // Log seviyesi
     const logLevelRow = new Adw.ComboRow({
         title: 'Log Seviyesi',
-        subtitle: 'Kayıt tutma detay seviyesi',
+        subtitle: 'Kayit tutma detay seviyesi',
         model: new Gtk.StringList(),
     });
     

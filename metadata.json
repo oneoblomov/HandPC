@@ -1,12 +1,9 @@
 {
   "uuid": "hci@oneOblomov.dev",
   "name": "Hand Control Interface (HCI)",
-  "description": "El hareketleri ile bilgisayar kontrolü - MediaPipe tabanlı gesture recognition",
+  "description": "El hareketleri ile bilgisayar kontrolu - MediaPipe tabanli gesture recognition",
   "version": 1,
-  "shell-version": [
-    "45",
-    "46"
-  ],
+  "shell-version": ["45", "46"],
   "url": "https://github.com/oneOblomov/hci-extension",
   "settings-schema": "org.gnome.shell.extensions.hci"
 }

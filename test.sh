@@ -11,7 +11,7 @@ if [ "$1" = "--docker" ]; then
     echo "Running in Docker mode"
 fi
 
-echo "🚀 Starting HCI Extension Tests..."
+echo "Starting HCI Extension Tests..."
 
 # Set up environment
 if [ "$DOCKER_MODE" = true ]; then
@@ -32,7 +32,7 @@ fi
 # Run Python tests
 echo "🧪 Running Python tests..."
 python3 -m pytest tests/python/ -v --tb=short -x || {
-    echo "❌ Python tests failed"
+    echo "[X] Python tests failed"
     exit 1
 }
 
@@ -44,4 +44,4 @@ timeout 30s gjs test-extension.js || echo "Extension test completed"
 timeout 30s gjs test-prefs.js || echo "Prefs test completed"
 cd ../..
 
-echo "✅ All tests completed successfully!"
+echo "[✓] All tests completed successfully!"

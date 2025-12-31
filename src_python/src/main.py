@@ -25,13 +25,13 @@ class GestureControlSystem:
     """Ana gesture kontrol sistemi"""
 
     def __init__(self, config_path: str = "config/gesture_map.json", settings_override: Optional[Dict] = None):
-        # Environment variables'dan ayarları al (öncelik: env vars > settings_override > config file > defaults)
+        # Environment variables'dan ayarları al (oncelik: env vars > settings_override > config file > defaults)
         self.settings = self._load_settings_from_env(settings_override)
 
         self.detector = GestureDetector(config_path)
         self.action_handler = ActionHandler()
 
-        # Config dosyasını da yükle (eski uyumluluk için)
+        # Config dosyasini da yukle (eski uyumluluk için)
         self.config = self._load_config(config_path)
 
         # Mevcut durumu takip etmek için
@@ -39,25 +39,25 @@ class GestureControlSystem:
         self.prev_cursor_y = 0.0
         self.last_gesture_time = 0.0
 
-        # Ayarları yükle - environment'dan gelen ayarları kullan
+        # Ayarlari yukle - environment'dan gelen ayarlari kullan
         self.smoothing = self.settings.get('smoothing_factor', 0.3)
         self.sensitivity = self.settings.get('sensitivity', {})
 
-        # Kullanıcı dostu özellikler - environment'dan alınan ayarlar
+        # Kullanici dostu ozellikler - environment'dan alinan ayarlar
         self.show_help = True
         self.calibration_countdown = 0
         self.tutorial_mode = self.settings.get('tutorial_mode', False)
         self.debug_mode = self.settings.get('debug_mode', False)
 
-        # Güvenlik ayarları
+        # Guvenlik ayarlari
         self.safe_mode = self.settings.get('safe_mode', True)
         self.auto_calibrate = self.settings.get('auto_calibrate', True)
 
-        # Kamera ayarları
+        # Kamera ayarlari
         self.camera_index = self.settings.get('camera_index', 0)
         self.camera_fps = self.settings.get('camera_fps', 30)
 
-        # Hassasiyet ayarları
+        # Hassasiyet ayarlari
         self.pinch_threshold = self.settings.get('pinch_threshold', 0.05)
         self.confidence_minimum = self.settings.get('confidence_minimum', 0.7)
         self.click_cooldown = self.settings.get('click_cooldown', 0.3)
@@ -67,14 +67,14 @@ class GestureControlSystem:
         self.gesture_count = 0
         self.successful_actions = 0
 
-        # Ayarları uygula
+        # Ayarlari uygula
         self._apply_settings()
 
     def _load_settings_from_env(self, settings_override: Optional[Dict] = None) -> Dict:
-        """Environment variables'dan ayarları yükle"""
+        """Environment variables'dan ayarlari yukle"""
         settings = {}
 
-        # Önce varsayılan değerleri ayarla
+        # once varsayilan değerleri ayarla
         defaults = {
             'tutorial_mode': False,
             'safe_mode': True,
@@ -93,7 +93,7 @@ class GestureControlSystem:
             'sensitivity': {'movement': 1.0, 'pinch_detection': 1.0}
         }
 
-        # Environment variables'ı kontrol et
+        # Environment variables'i kontrol et
         env_mappings = {
             'HCI_TUTORIAL_MODE': ('tutorial_mode', bool),
             'HCI_SAFE_MODE': ('safe_mode', bool),
@@ -123,54 +123,54 @@ class GestureControlSystem:
                         defaults[setting_key] = float(env_value)
                     else:
                         defaults[setting_key] = env_value
-                    print(f"✅ Environment variable {env_var} = {defaults[setting_key]}")
+                    print(f"Environment variable {env_var} = {defaults[setting_key]}")
                 except (ValueError, TypeError) as e:
-                    print(f"⚠️ Environment variable {env_var} geçersiz değer: {env_value} ({e})")
+                    print(f"Environment variable {env_var} geçersiz değer: {env_value} ({e})")
 
         return defaults
 
     def _apply_settings(self):
-        """Ayarları ilgili bileşenlere uygula"""
+        """Ayarlari ilgili bileşenlere uygula"""
         # Tutorial modunu etkinleştir
         if self.tutorial_mode:
             self.enable_tutorial_mode()
 
-        # Güvenli modu ayarla
+        # Guvenli modu ayarla
         self.action_handler.enable_safe_mode(self.safe_mode)
 
         # Debug modu
         if self.debug_mode:
-            print("🔧 Debug modu etkinleştirildi")
+            print("Debug modu etkinleştirildi")
 
         # Log seviyesi
         if self.settings.get('log_level') == 'DEBUG':
             self.debug_mode = True
 
-        print(f"🎯 Ayarlar yüklendi:")
+        print("Ayarlar yuklendi:")
         print(f"   Tutorial modu: {self.tutorial_mode}")
-        print(f"   Güvenli mod: {self.safe_mode}")
+        print(f"   Guvenli mod: {self.safe_mode}")
         print(f"   Otomatik kalibrasyon: {self.auto_calibrate}")
         print(f"   Smoothing: {self.smoothing}")
         print(f"   Kamera: {self.camera_index} @ {self.camera_fps}fps")
-        print(f"   Güven seviyesi: {self.confidence_minimum}")
+        print(f"   Guven seviyesi: {self.confidence_minimum}")
 
     def get_settings(self) -> Dict:
-        """Mevcut ayarları döndür"""
+        """Mevcut ayarlari dondur"""
         return self.settings.copy()
 
     def _load_config(self, config_path: str) -> Dict:
-        """Konfigürasyon dosyasını yükle"""
+        """Konfigurasyon dosyasini yukle"""
         try:
             with open(config_path, 'r', encoding='utf-8') as f:
                 return json.load(f)
         except FileNotFoundError:
-            print(f"Konfigürasyon dosyası bulunamadı: {config_path}")
+            print(f"Konfigurasyon dosyasi bulunamadi: {config_path}")
             return {"settings": {"smoothing": 0.3}}
 
     def start_calibration(self):
-        """Kalibrasyon sürecini başlat"""
-        print("\n🎯 El kalibrasyonu başlatılıyor...")
-        print("Lütfen elinizi kameranın önünde doğal pozisyonda tutun")
+        """Kalibrasyon surecini başlat"""
+        print("\nEl kalibrasyonu başlatiliyor...")
+        print("Lutfen elinizi kameranin onunde doğal pozisyonda tutun")
         print("3 saniye içinde kalibrasyon başlayacak...")
         self.calibration_countdown = 90  # 3 saniye x 30 FPS
         self.detector.reset_calibration()
@@ -178,13 +178,13 @@ class GestureControlSystem:
     def enable_tutorial_mode(self):
         """Tutorial modunu etkinleştir"""
         self.tutorial_mode = True
-        print("\n📚 Tutorial modu etkinleştirildi")
-        print("Gesture'ları deneyip nasıl çalıştığını görebilirsiniz")
-        print("Gerçek eylemler çalıştırılmayacak")
+        print("\nTutorial modu etkinleştirildi")
+        print("Gesture'lari deneyip nasil çaliştiğini gorebilirsiniz")
+        print("Gerçek eylemler çaliştirilmayacak")
         self.action_handler.enable_safe_mode(True)
 
     def _calculate_cursor_position(self, landmarks) -> tuple:
-        """İşaret parmağından cursor pozisyonunu hesapla - akıllı filtreleme"""
+        """İşaret parmağindan cursor pozisyonunu hesapla - akilli filtreleme"""
         index_finger = landmarks[8]
 
         # Ham koordinatlar
@@ -214,7 +214,7 @@ class GestureControlSystem:
         h, w, _ = frame.shape
 
         if self.calibration_countdown > 0:
-            # Geri sayım göster
+            # Geri sayim goster
             countdown_sec = self.calibration_countdown // 30
             cv2.putText(frame, f"Kalibrasyon: {countdown_sec + 1}",
                         (w // 2 - 100, h // 2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255), 3)
@@ -227,7 +227,7 @@ class GestureControlSystem:
                         (center_x - 80, center_y + 130), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
 
     def _draw_visual_feedback(self, frame, landmarks, cursor_pos: tuple, gesture_info: Dict):
-        """Gelişmiş görsel geri bildirim - akıllı sistem bilgileri"""
+        """Gelişmiş gorsel geri bildirim - akilli sistem bilgileri"""
         h, w, _ = frame.shape
 
         # Kalibrasyon overlay'i
@@ -235,11 +235,11 @@ class GestureControlSystem:
             self._draw_calibration_overlay(frame)
             return
 
-        # El landmark'larını çiz
+        # El landmark'larini çiz
         if mp_drawing and mp_hands:
             mp_drawing.draw_landmarks(frame, landmarks, mp_hands.HAND_CONNECTIONS)
 
-        # İşaret parmağı pozisyonu (mavi)
+        # İşaret parmaği pozisyonu (mavi)
         index_finger = landmarks.landmark[8]
         cam_x, cam_y = int(index_finger.x * w), int(index_finger.y * h)
         cv2.circle(frame, (cam_x, cam_y), 8, (255, 0, 0), -1)
@@ -251,13 +251,13 @@ class GestureControlSystem:
             vis_filter_y = int((filter_y / (SCREEN_H or h)) * h)
             cv2.circle(frame, (vis_filter_x, vis_filter_y), 6, (0, 255, 0), -1)
 
-        # Gesture durumunu göster
+        # Gesture durumunu goster
         status_y = 30
 
         # Kalibrasyon durumu - geliştirilmiş
         cal_status = self.detector.get_calibration_status()
         if cal_status['is_calibrated']:
-            cv2.putText(frame, f"✓ Akıllı kalibrasyon (boyut: {cal_status.get('hand_size', 0):.3f})", (10, status_y),
+            cv2.putText(frame, f"✓ Akilli kalibrasyon (boyut: {cal_status.get('hand_size', 0):.3f})", (10, status_y),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
         else:
             progress = (cal_status.get('frames_processed', 0) / 90) * 100
@@ -265,18 +265,18 @@ class GestureControlSystem:
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
         status_y += 20
 
-        # Pinch durumu - detaylı
+        # Pinch durumu - detayli
         if gesture_info.get('pinch_active', False):
             pinch_dist = gesture_info.get('raw_pinch_distance', 0)
             pinch_thresh = gesture_info.get('pinch_threshold', 0)
-            cv2.putText(frame, f"✊ Pinch aktif ({pinch_dist:.3f} < {pinch_thresh:.3f})", (10, status_y),
+            cv2.putText(frame, f"Pinch aktif ({pinch_dist:.3f} < {pinch_thresh:.3f})", (10, status_y),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 2)
             status_y += 20
 
         # Mevcut gesture
         if gesture_info.get('action'):
             confidence = gesture_info.get('confidence', 0)
-            stable = "✓" if gesture_info.get('stable', False) else "❌"
+            stable = "OK" if gesture_info.get('stable', False) else "NO"
 
             action_text = f"Gesture: {gesture_info['action']} ({confidence:.2f})"
             cv2.putText(frame, action_text, (10, status_y),
@@ -286,28 +286,28 @@ class GestureControlSystem:
         # Sistem durumu
         system_status = self.action_handler.get_status()
         if system_status['disabled']:
-            cv2.putText(frame, "🚫 DEVRE DIŞI", (10, status_y),
+            cv2.putText(frame, "DEVRE DIŞI", (10, status_y),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
             status_y += 30
 
         if system_status['safe_mode']:
-            cv2.putText(frame, "🛡️ GÜVENLİ MOD", (10, status_y),
+            cv2.putText(frame, "GUVENLI MOD", (10, status_y),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
             status_y += 25
 
         if system_status['cursor_frozen']:
-            cv2.putText(frame, "🔒 İMLEÇ DONDURULDU", (10, status_y),
+            cv2.putText(frame, "İMLEÇ DONDURULDU", (10, status_y),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 2)
             status_y += 25
 
         if system_status['drag_mode']:
-            cv2.putText(frame, "🔄 SÜRÜKLEME MODU", (10, status_y),
+            cv2.putText(frame, "SuRuKLEME MODU", (10, status_y),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
             status_y += 25
 
         # Tutorial modu
         if self.tutorial_mode:
-            cv2.putText(frame, "📚 TUTORIAL MODU - Eylemler çalıştırılmıyor",
+            cv2.putText(frame, "TUTORIAL MODU - Eylemler çaliştirilmiyor",
                         (10, status_y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 2)
             status_y += 20
 
@@ -320,36 +320,36 @@ class GestureControlSystem:
             cursor_stats = perf_stats.get('cursor_filter_stats', {})
             if cursor_stats.get('total_movements', 0) > 0:
                 filter_rate = cursor_stats.get('filter_rate', 0) * 100
-                cv2.putText(frame, f"Filtreleme oranı: {filter_rate:.1f}%",
+                cv2.putText(frame, f"Filtreleme orani: {filter_rate:.1f}%",
                             (10, h - 60), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
 
-        # Yardım metni
+        # Yardim metni
         if self.show_help:
             help_y = h - 40
-            cv2.putText(frame, 'q: çık | c: kalibre et | h: yardımı gizle | t: tutorial | s: güvenli mod',
+            cv2.putText(frame, 'q: çik | c: kalibre et | h: yardimi gizle | t: tutorial | s: guvenli mod',
                         (10, help_y), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
             help_y += 15
-            cv2.putText(frame, 'f: imleç dondur | d: devre dışı | SPACE: durakla | `: debug',
+            cv2.putText(frame, 'f: imleç dondur | d: devre dişi | SPACE: durakla | `: debug',
                         (10, help_y), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
 
     def process_frame(self, frame, landmarks) -> Dict[str, Any]:
-        """Bir frame'i işle ve gesture algıla - optimize edilmiş"""
+        """Bir frame'i işle ve gesture algila - optimize edilmiş"""
         self.frame_count += 1
 
-        # Kalibrasyon geri sayımı (legacy)
+        # Kalibrasyon geri sayimi (legacy)
         if self.calibration_countdown > 0:
             self.calibration_countdown -= 1
             if self.calibration_countdown == 0:
-                print("⏰ Manuel kalibrasyon başlatılıyor...")
+                print("Manuel kalibrasyon başlatiliyor...")
                 self.detector.calibrate_hand(landmarks.landmark)
 
-        # Gesture algıla (bu işlem cursor pozisyonunu da hesaplar)
+        # Gesture algila (bu işlem cursor pozisyonunu da hesaplar)
         gesture_info = self.detector.detect_gesture(landmarks.landmark)
 
         # Filtrelenmiş cursor pozisyonunu al
         cursor_pos = gesture_info.get('cursor_pos', (0, 0))
 
-        # İmleci hareket ettir - SADECE pinch aktifken VE akıllı filtreleme ile
+        # İmleci hareket ettir - SADECE pinch aktifken VE akilli filtreleme ile
         pinch_active = gesture_info.get('pinch_active', False)
         if pinch_active and gesture_info.get('type') != 'calibration':
             self.action_handler.move_cursor(cursor_pos[0], cursor_pos[1], pinch_active, 1.0)
@@ -358,7 +358,7 @@ class GestureControlSystem:
         if gesture_info['action'] and gesture_info.get('type') != 'calibration':
             self.gesture_count += 1
 
-            # Tutorial modunda gerçek eylemleri çalıştırma
+            # Tutorial modunda gerçek eylemleri çaliştirma
             if not self.tutorial_mode:
                 should_execute = self.detector.should_execute_action(
                     gesture_info['type'],
@@ -373,12 +373,12 @@ class GestureControlSystem:
                         self.successful_actions += 1
                         self.last_gesture_time = time.time()
             else:
-                # Tutorial modunda sadece bilgi göster
+                # Tutorial modunda sadece bilgi goster
                 confidence = gesture_info.get('confidence', 0)
-                stable = "✓" if gesture_info.get('stable', False) else "❌"
-                print(f"📚 Tutorial: {gesture_info['action']} (güven: {confidence:.2f}, stabil: {stable})")
+                stable = "OK" if gesture_info.get('stable', False) else "NO"
+                print(f"Tutorial: {gesture_info['action']} (guven: {confidence:.2f}, stabil: {stable})")
 
-        # Görsel geri bildirim
+        # Gorsel geri bildirim
         self._draw_visual_feedback(frame, landmarks, cursor_pos, gesture_info)
 
         return gesture_info
@@ -386,18 +386,18 @@ class GestureControlSystem:
     def handle_keyboard_input(self, key: int) -> bool:
         """Klavye girişlerini işle"""
         if key == ord('q'):
-            return False  # Çık
+            return False  # Çik
         elif key == ord('c'):
             self.start_calibration()
         elif key == ord('h'):
             self.show_help = not self.show_help
-            print(f"Yardım {'gösteriliyor' if self.show_help else 'gizlendi'}")
+            print(f"Yardim {'gosteriliyor' if self.show_help else 'gizlendi'}")
         elif key == ord('t'):
             self.tutorial_mode = not self.tutorial_mode
             if self.tutorial_mode:
                 self.enable_tutorial_mode()
             else:
-                print("Tutorial modu kapatıldı")
+                print("Tutorial modu kapatildi")
                 self.action_handler.enable_safe_mode(True)
         elif key == ord('s'):
             current_safe = self.action_handler.safe_mode
@@ -407,15 +407,15 @@ class GestureControlSystem:
         elif key == ord('d'):
             self.action_handler._toggle_disabled_mode()
         elif key == ord(' '):  # SPACE - durakla
-            input("Sistem duraklatıldı. Devam etmek için Enter'a basın...")
+            input("Sistem duraklatildi. Devam etmek için Enter'a basin...")
         elif key == ord('`'):  # Backtick - debug mode
             self.debug_mode = not self.debug_mode
-            print(f"Debug modu {'etkin' if self.debug_mode else 'kapalı'}")
+            print(f"Debug modu {'etkin' if self.debug_mode else 'kapali'}")
 
         return True
 
     def get_session_stats(self) -> Dict[str, Any]:
-        """Oturum istatistiklerini döndür"""
+        """Oturum istatistiklerini dondur"""
         action_stats = self.action_handler.get_stats()
         return {
             'frames_processed': self.frame_count,
@@ -433,11 +433,11 @@ def _dist(a, b):
 
 
 def run(camera_index=0, settings_override: Optional[Dict] = None):
-    """Ana çalıştırma fonksiyonu - kullanıcı dostu versiyon"""
+    """Ana çaliştirma fonksiyonu - kullanici dostu versiyon"""
 
-    # MediaPipe kontrolü
+    # MediaPipe kontrolu
     if not mp_hands or not mp_drawing:
-        print("❌ MediaPipe bulunamadı. 'pip install mediapipe' komutunu çalıştırın.")
+        print("[X] MediaPipe bulunamadi. 'pip install mediapipe' komutunu çaliştirin.")
         return
 
     # Settings override varsa kullan, yoksa camera_index parametresini kullan
@@ -449,34 +449,34 @@ def run(camera_index=0, settings_override: Optional[Dict] = None):
 
     cap = cv2.VideoCapture(final_camera_index)
     if not cap.isOpened():
-        print(f"❌ Kamera açılamadı (index: {final_camera_index}).")
+        print(f"Kamera açilamadi (index: {final_camera_index}).")
         return
 
     # Ensure window is created from main thread and use a resizable window
     try:
-        cv2.namedWindow('Gesture Control - Kullanıcı Dostu Versiyon', cv2.WINDOW_NORMAL)
+        cv2.namedWindow('Gesture Control - Kullanici Dostu Versiyon', cv2.WINDOW_NORMAL)
         # On some platforms OpenCV/Qt can complain about threads; startWindowThread helps
         cv2.startWindowThread()
     except Exception:
         # non-fatal, continue
         pass
 
-    # Modüler sistemi başlat - ayarlarla birlikte
+    # Moduler sistemi başlat - ayarlarla birlikte
     gesture_system = GestureControlSystem(settings_override=settings_override)
 
-    # MediaPipe hands modeli - ayarlardan güven seviyesi al
+    # MediaPipe hands modeli - ayarlardan guven seviyesi al
     confidence_level = gesture_system.confidence_minimum
 
     with mp_hands.Hands(max_num_hands=1,
                         min_detection_confidence=confidence_level,
                         min_tracking_confidence=confidence_level) as hands:
 
-        # Otomatik kalibrasyon öner - ayarlardan kontrol et
+        # Otomatik kalibrasyon oner - ayarlardan kontrol et
         if gesture_system.auto_calibrate:
-            print("\n🎯 Otomatik kalibrasyon başlatılıyor...")
+            print("\nOtomatik kalibrasyon başlatiliyor...")
             gesture_system.start_calibration()
         else:
-            print("\n⚠️ Otomatik kalibrasyon devre dışı. 'c' tuşu ile manuel kalibrasyon yapabilirsiniz.")
+            print("\nOtomatik kalibrasyon devre dişi. 'c' tuşu ile manuel kalibrasyon yapabilirsiniz.")
 
         frame_count = 0
         start_time = time.time()
@@ -485,47 +485,47 @@ def run(camera_index=0, settings_override: Optional[Dict] = None):
         while True:
             ok, frame = cap.read()
             if not ok:
-                print("❌ Kamera verisi alınamadı")
+                print("Kamera verisi alinamadi")
                 break
 
-            # Aynayı çevir
+            # Aynayi çevir
             frame = cv2.flip(frame, 1)
             rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-            # El algılama
+            # El algilama
             results = hands.process(rgb)
 
             if results.multi_hand_landmarks:
                 for landmarks in results.multi_hand_landmarks:
-                    # Frame'i işle ve gesture algıla
+                    # Frame'i işle ve gesture algila
                     gesture_info = gesture_system.process_frame(frame, landmarks)
             else:
-                # El algılanmadığında bilgi göster
+                # El algilanmadiğinda bilgi goster
                 h, w, _ = frame.shape
-                cv2.putText(frame, "El algılanmadı - Elinizi kameranın önüne getirin",
+                cv2.putText(frame, "El algilanmadi - Elinizi kameranin onune getirin",
                             (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
 
-                # Kalibrasyon durumunda yardım göster
+                # Kalibrasyon durumunda yardim goster
                 if gesture_system.calibration_countdown > 0:
                     gesture_system._draw_calibration_overlay(frame)
 
-            # FPS hesapla ve göster
+            # FPS hesapla ve goster
             frame_count += 1
-            if frame_count % 30 == 0:  # Her 30 frame'de bir güncelle
+            if frame_count % 30 == 0:  # Her 30 frame'de bir guncelle
                 elapsed = time.time() - start_time
                 fps = frame_count / elapsed
                 cv2.putText(frame, f"FPS: {fps:.1f}", (frame.shape[1] - 100, 30),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
 
-            # Frame'i göster
-            cv2.imshow('Gesture Control - Kullanıcı Dostu Versiyon', frame)
+            # Frame'i goster
+            cv2.imshow('Gesture Control - Kullanici Dostu Versiyon', frame)
 
-            # Klavye girişi kontrolü
+            # Klavye girişi kontrolu
             key = cv2.waitKey(1) & 0xFF
             if not gesture_system.handle_keyboard_input(key):
                 break
 
-    # Kapanış istatistikleri
+    # Kapaniş istatistikleri
     cap.release()
     cv2.destroyAllWindows()
 
@@ -535,14 +535,14 @@ def run(camera_index=0, settings_override: Optional[Dict] = None):
 def run_legacy(camera_index=0):
     """Eski basit implementasyon (backward compatibility)"""
 
-    # MediaPipe kontrolü
+    # MediaPipe kontrolu
     if not mp_hands or not mp_drawing:
-        print("❌ MediaPipe bulunamadı. 'pip install mediapipe' komutunu çalıştırın.")
+        print("[X] MediaPipe bulunamadi. 'pip install mediapipe' komutunu çaliştirin.")
         return
 
     cap = cv2.VideoCapture(camera_index)
     if not cap.isOpened():
-        print("Kamera açılamadı.")
+        print("Kamera açilamadi.")
         return
 
     prev_x = prev_y = 0.0
@@ -572,7 +572,7 @@ def run_legacy(camera_index=0):
                 thumb = (lm[4].x, lm[4].y)
                 mid = (lm[12].x, lm[12].y)
 
-                # normalize -> ekran piksel koordinatına çevir
+                # normalize -> ekran piksel koordinatina çevir
                 sx = idx[0] * (SCREEN_W or w)
                 sy = idx[1] * (SCREEN_H or h)
 
@@ -588,20 +588,20 @@ def run_legacy(camera_index=0):
 
                 prev_x, prev_y = cur_x, cur_y
 
-                # görsel geri bildirim
+                # gorsel geri bildirim
                 cam_x, cam_y = int(idx[0] * w), int(idx[1] * h)
                 vis_x = int((cur_x / (SCREEN_W or w)) * w)
                 vis_y = int((cur_y / (SCREEN_H or h)) * h)
-                cv2.circle(frame, (cam_x, cam_y), 6, (255, 0, 0), -1)   # kamera uzayı
-                cv2.circle(frame, (vis_x, vis_y), 6, (0, 0, 255), -1)   # hedef (sistem koordinatı projeksiyonu)
-                # gerçek fare pozisyonunu da göster (yeşil) — debug amaçlı
+                cv2.circle(frame, (cam_x, cam_y), 6, (255, 0, 0), -1)   # kamera uzayi
+                cv2.circle(frame, (vis_x, vis_y), 6, (0, 0, 255), -1)   # hedef (sistem koordinati projeksiyonu)
+                # gerçek fare pozisyonunu da goster (yeşil) — debug amaçli
                 try:
                     mx, my = pyautogui.position()
                     if SCREEN_W and SCREEN_H:
                         fmx = int(mx / SCREEN_W * w)
                         fmy = int(my / SCREEN_H * h)
                     else:
-                        # SCREEN size bilinmiyorsa, gösterimi hedef noktasına yaklaştır
+                        # SCREEN size bilinmiyorsa, gosterimi hedef noktasina yaklaştir
                         fmx, fmy = vis_x, vis_y
                     cv2.circle(frame, (fmx, fmy), 6, (0, 255, 0), -1)
                     cv2.putText(frame, f'mouse={mx},{my}', (10, h - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
@@ -636,28 +636,28 @@ def run_legacy(camera_index=0):
 
 
 def parse_args():
-    """Komut satırı argümanlarını parse et"""
+    """Komut satiri argumanlarini parse et"""
     parser = argparse.ArgumentParser(description='HCI Gesture Control System')
 
     # Ana modlar
     parser.add_argument('--legacy', action='store_true', help='Eski basit sistemi kullan')
-    parser.add_argument('--camera-index', type=int, default=0, help='Kamera cihaz numarası (varsayılan: 0)')
+    parser.add_argument('--camera-index', type=int, default=0, help='Kamera cihaz numarasi (varsayilan: 0)')
 
     # Ayar parametreleri
     parser.add_argument('--tutorial-mode', action='store_true', help='Tutorial modunu etkinleştir')
-    parser.add_argument('--safe-mode', action='store_true', default=True, help='Güvenli modu etkinleştir')
-    parser.add_argument('--no-safe-mode', action='store_true', help='Güvenli modu devre dışı bırak')
+    parser.add_argument('--safe-mode', action='store_true', default=True, help='Guvenli modu etkinleştir')
+    parser.add_argument('--no-safe-mode', action='store_true', help='Guvenli modu devre dişi birak')
     parser.add_argument('--auto-calibrate', action='store_true', default=True, help='Otomatik kalibrasyonu etkinleştir')
-    parser.add_argument('--no-auto-calibrate', action='store_true', help='Otomatik kalibrasyonu devre dışı bırak')
+    parser.add_argument('--no-auto-calibrate', action='store_true', help='Otomatik kalibrasyonu devre dişi birak')
     parser.add_argument('--debug', action='store_true', help='Debug modunu etkinleştir')
 
-    # Hassasiyet ayarları
-    parser.add_argument('--smoothing', type=float, default=0.3, help='Cursor yumuşaklığı (0.1-0.9)')
-    parser.add_argument('--pinch-threshold', type=float, default=0.05, help='Pinch algılama eşiği')
-    parser.add_argument('--confidence', type=float, default=0.7, help='Minimum güven seviyesi')
-    parser.add_argument('--click-cooldown', type=float, default=0.3, help='Tıklama arası bekleme süresi')
+    # Hassasiyet ayarlari
+    parser.add_argument('--smoothing', type=float, default=0.3, help='Cursor yumuşakliği (0.1-0.9)')
+    parser.add_argument('--pinch-threshold', type=float, default=0.05, help='Pinch algilama eşiği')
+    parser.add_argument('--confidence', type=float, default=0.7, help='Minimum guven seviyesi')
+    parser.add_argument('--click-cooldown', type=float, default=0.3, help='Tiklama arasi bekleme suresi')
 
-    # Kamera ayarları
+    # Kamera ayarlari
     parser.add_argument('--fps', type=int, default=30, help='Kamera FPS (15-60)')
 
     return parser.parse_args()
@@ -667,10 +667,10 @@ if __name__ == '__main__':
     args = parse_args()
 
     if args.legacy:
-        print("Legacy mode ile başlatılıyor...")
+        print("Legacy mode ile başlatiliyor...")
         run_legacy(args.camera_index)
     else:
-        # Ayarları hazırla
+        # Ayarlari hazirla
         settings_override = {
             'camera_index': args.camera_index,
             'camera_fps': args.fps,
@@ -684,10 +684,10 @@ if __name__ == '__main__':
             'click_cooldown': args.click_cooldown,
         }
 
-        print("🚀 HCI Gesture Control başlatılıyor...")
-        print(f"📋 Ayarlar: Tutorial={args.tutorial_mode}, Safe={settings_override['safe_mode']}, Auto-cal={settings_override['auto_calibrate']}")
-        print(f"🎥 Kamera: {args.camera_index} @ {args.fps}fps")
-        print(f"🎯 Hassasiyet: smoothing={args.smoothing}, confidence={args.confidence}")
+        print("HCI Gesture Control başlatiliyor...")
+        print(f"Ayarlar: Tutorial={args.tutorial_mode}, Safe={settings_override['safe_mode']}, Auto-cal={settings_override['auto_calibrate']}")
+        print(f"Kamera: {args.camera_index} @ {args.fps}fps")
+        print(f"Hassasiyet: smoothing={args.smoothing}, confidence={args.confidence}")
 
-        # Varsayılan olarak modüler sistemi çalıştır
+        # Varsayilan olarak moduler sistemi çaliştir
         run(settings_override=settings_override)

@@ -5,51 +5,51 @@ from typing import Dict, Any
 
 
 class ActionHandler:
-    """Geliştirilmiş gesture eylemlerini gerçekleştiren modül"""
+    """Geliştirilmiş gesture eylemlerini gerçekleştiren modul"""
 
     def __init__(self):
         self.is_disabled = False
         self.cursor_frozen = False
         self.drag_mode = False
         self.drag_start_pos = None
-        self.safe_mode = True  # Güvenli mod (yanlışlıkla eylemleri önler)
+        self.safe_mode = True  # Guvenli mod (yanlişlikla eylemleri onler)
 
-        # PyAutoGUI ayarları - Fail-safe'i tamamen devre dışı bırak
-        pyautogui.FAILSAFE = False  # Fail-safe'i kapatıyoruz
-        pyautogui.PAUSE = 0.01  # Çok kısa pause
+        # PyAutoGUI ayarlari - Fail-safe'i tamamen devre dişi birak
+        pyautogui.FAILSAFE = False  # Fail-safe'i kapatiyoruz
+        pyautogui.PAUSE = 0.01  # Çok kisa pause
 
-        # Kendi güvenlik kontrolleri
+        # Kendi guvenlik kontrolleri
         self.screen_width, self.screen_height = pyautogui.size()
-        self.safe_margin = 50  # Daha büyük güvenli mesafe (50 piksel)
+        self.safe_margin = 50  # Daha buyuk guvenli mesafe (50 piksel)
 
         # Eylem geçmişi
         self.action_history = []
         self.last_action_time = {}
 
-        # Güvenlik ayarları
-        self.min_action_interval = 0.3  # Minimum eylem arası süre
+        # Guvenlik ayarlari
+        self.min_action_interval = 0.3  # Minimum eylem arasi sure
         self.max_actions_per_second = 3
         self.recent_actions = []
 
     def enable_safe_mode(self, enabled: bool = True):
-        """Güvenli modu etkinleştir/devre dışı bırak"""
+        """Guvenli modu etkinleştir/devre dişi birak"""
         self.safe_mode = enabled
-        status = "etkinleştirildi" if enabled else "devre dışı bırakıldı"
-        print(f"Güvenli mod {status}")
+        status = "etkinleştirildi" if enabled else "devre dişi birakildi"
+        print(f"Guvenli mod {status}")
 
     def _is_action_safe(self, action: str) -> bool:
-        """Eylemin güvenli olup olmadığını kontrol et"""
+        """Eylemin guvenli olup olmadiğini kontrol et"""
         current_time = time.time()
 
         # Son 1 saniyedeki eylemleri temizle
         self.recent_actions = [t for t in self.recent_actions if current_time - t < 1.0]
 
-        # Çok fazla eylem var mı?
+        # Çok fazla eylem var mi?
         if len(self.recent_actions) >= self.max_actions_per_second:
-            print(f"⚠ Çok fazla eylem algılandı, {action} bloklandı")
+            print(f"⚠ Çok fazla eylem algilandi, {action} bloklandi")
             return False
 
-        # Minimum süre kontrolü
+        # Minimum sure kontrolu
         if action in self.last_action_time:
             time_since_last = current_time - self.last_action_time[action]
             if time_since_last < self.min_action_interval:
@@ -58,11 +58,11 @@ class ActionHandler:
         return True
 
     def _is_position_safe(self, x: float, y: float) -> bool:
-        """Pozisyonun güvenli olup olmadığını kontrol et (ekran kenarlarından uzak)"""
-        # Ekran kenarlarından güvenli mesafede mi?
+        """Pozisyonun guvenli olup olmadiğini kontrol et (ekran kenarlarindan uzak)"""
+        # Ekran kenarlarindan guvenli mesafede mi?
         if (x < self.safe_margin or x > self.screen_width - self.safe_margin or
                 y < self.safe_margin or y > self.screen_height - self.safe_margin):
-            print(f"⚠ Ekran kenarında işlem engellendi (x:{x:.0f}, y:{y:.0f}) - margin:{self.safe_margin}")
+            print(f"⚠ Ekran kenarinda işlem engellendi (x:{x:.0f}, y:{y:.0f}) - margin:{self.safe_margin}")
             return False
         return True
 
@@ -79,12 +79,12 @@ class ActionHandler:
                 'success': success
             })
 
-            # Geçmişi sınırla
+            # Geçmişi sinirla
             if len(self.action_history) > 100:
                 self.action_history.pop(0)
 
     def execute_action(self, gesture_data: Dict[str, Any], cursor_pos: tuple) -> bool:
-        """Algılanan gesture'a göre eylemi gerçekleştir - geliştirilmiş"""
+        """Algilanan gesture'a gore eylemi gerçekleştir - geliştirilmiş"""
         if self.is_disabled:
             return False
 
@@ -95,22 +95,22 @@ class ActionHandler:
         if not action:
             return False
 
-        # Güvenlik kontrolleri
+        # Guvenlik kontrolleri
         if self.safe_mode and not self._is_action_safe(action):
             return False
 
-        # Güven kontrolü
-        if confidence < 0.7:  # Daha yüksek güven eşiği
+        # Guven kontrolu
+        if confidence < 0.7:  # Daha yuksek guven eşiği
             return False
 
-        # Stabilite kontrolü
+        # Stabilite kontrolu
         if not stable and action in ['left_click', 'right_click', 'drag']:
             return False
 
         success = False
 
         try:
-            # Fare kontrolü eylemleri
+            # Fare kontrolu eylemleri
             if action == 'left_click':
                 success = self._left_click_safe()
             elif action == 'right_click':
@@ -127,7 +127,7 @@ class ActionHandler:
                 app_name = gesture_data.get('app', 'firefox')
                 success = self._open_app_safe(app_name)
 
-            # Kaydırma eylemleri (daha az sınırlı)
+            # Kaydirma eylemleri (daha az sinirli)
             elif action in ['scroll_up', 'scroll_down']:
                 success = self._scroll_safe(action)
 
@@ -137,10 +137,10 @@ class ActionHandler:
 
             # Zoom eylemleri - GEÇİCİ OLARAK DEVRE DIŞI
             elif action in ['zoom_in', 'zoom_out']:
-                print(f"⚠ Zoom işlevi geçici olarak devre dışı: {action}")
+                print(f"⚠ Zoom işlevi geçici olarak devre dişi: {action}")
                 success = False
 
-            # Sistem eylemleri (en güvenli)
+            # Sistem eylemleri (en guvenli)
             elif action == 'show_applications':
                 success = self._show_applications_safe()
             elif action == 'win_key':
@@ -157,24 +157,24 @@ class ActionHandler:
                 success = self._toggle_cursor_freeze()
 
         except Exception as e:
-            print(f"Eylem gerçekleştirme hatası ({action}): {e}")
+            print(f"Eylem gerçekleştirme hatasi ({action}): {e}")
             success = False
 
         # Eylemi kaydet
         self._record_action(action, success)
 
         if success and self.safe_mode:
-            print(f"✓ Eylem gerçekleştirildi: {action} (güven: {confidence:.2f})")
+            print(f"✓ Eylem gerçekleştirildi: {action} (guven: {confidence:.2f})")
 
         return success
 
     def _left_click_safe(self) -> bool:
-        """Güvenli sol tıklama"""
+        """Guvenli sol tiklama"""
         if not self.cursor_frozen:
             # Mevcut pozisyonu kontrol et
             current_pos = pyautogui.position()
 
-            # Güvenli pozisyon kontrolü
+            # Guvenli pozisyon kontrolu
             if not self._is_position_safe(current_pos[0], current_pos[1]):
                 return False
 
@@ -183,12 +183,12 @@ class ActionHandler:
         return False
 
     def _right_click_safe(self) -> bool:
-        """Güvenli sağ tıklama"""
+        """Guvenli sağ tiklama"""
         if not self.cursor_frozen:
             # Mevcut pozisyonu kontrol et
             current_pos = pyautogui.position()
 
-            # Güvenli pozisyon kontrolü
+            # Guvenli pozisyon kontrolu
             if not self._is_position_safe(current_pos[0], current_pos[1]):
                 return False
 
@@ -197,45 +197,45 @@ class ActionHandler:
         return False
 
     def _handle_drag_safe(self, cursor_pos: tuple, gesture_data: Dict[str, Any]) -> bool:
-        """Geliştirilmiş sürükleme işlemi - yeni gesture sistemi için"""
+        """Geliştirilmiş surukleme işlemi - yeni gesture sistemi için"""
         if self.cursor_frozen:
             return False
 
-        # Yeni sistemde drag gesture'ı tek seferde gelir
+        # Yeni sistemde drag gesture'i tek seferde gelir
         action = gesture_data.get('action')
         if action == 'drag':
             if not self.drag_mode:
-                # Sürükleme başlat
+                # Surukleme başlat
                 self.drag_mode = True
                 self.drag_start_pos = cursor_pos
                 pyautogui.mouseDown()
-                print("🔄 Sürükleme başlatıldı")
+                print("🔄 Surukleme başlatildi")
                 return True
             else:
-                # Zaten sürükleme modundaysa (güvenlik için)
+                # Zaten surukleme modundaysa (guvenlik için)
                 return False
         else:
             # Drag değilse ve drag modundaysak bitir
             if self.drag_mode:
                 self.drag_mode = False
                 pyautogui.mouseUp()
-                print("✓ Sürükleme tamamlandı")
+                print("✓ Surukleme tamamlandi")
                 self.drag_start_pos = None
                 return True
             return False
 
     def _end_drag_safe(self) -> bool:
-        """Sürükleme işlemini sonlandır"""
+        """Surukleme işlemini sonlandir"""
         if self.drag_mode:
             self.drag_mode = False
             pyautogui.mouseUp()
-            print("✓ Sürükleme sonlandırıldı")
+            print("✓ Surukleme sonlandirildi")
             self.drag_start_pos = None
             return True
         return False
 
     def _scroll_safe(self, direction: str) -> bool:
-        """Güvenli kaydırma"""
+        """Guvenli kaydirma"""
         if self.cursor_frozen:
             return False
 
@@ -247,7 +247,7 @@ class ActionHandler:
         return True
 
     def _navigate_safe(self, direction: str) -> bool:
-        """Güvenli navigasyon"""
+        """Guvenli navigasyon"""
         try:
             if direction == 'navigate_back':
                 pyautogui.hotkey('alt', 'left')
@@ -258,7 +258,7 @@ class ActionHandler:
             return False
 
     def _zoom_safe(self, direction: str) -> bool:
-        """Güvenli yakınlaştırma"""
+        """Guvenli yakinlaştirma"""
         try:
             if direction == 'zoom_in':
                 pyautogui.hotkey('ctrl', 'plus')
@@ -269,7 +269,7 @@ class ActionHandler:
             return False
 
     def _show_applications_safe(self) -> bool:
-        """Güvenli uygulama geçişi"""
+        """Guvenli uygulama geçişi"""
         try:
             pyautogui.hotkey('super', 'tab')
             return True
@@ -281,9 +281,9 @@ class ActionHandler:
                 return False
 
     def _win_key_safe(self) -> bool:
-        """Güvenli Windows tuşu (uygulama listesi)"""
+        """Guvenli Windows tuşu (uygulama listesi)"""
         try:
-            # Windows/Meta tuşunu gönder
+            # Windows/Meta tuşunu gonder
             pyautogui.press('win')
             return True
         except Exception:
@@ -295,7 +295,7 @@ class ActionHandler:
                 return False
 
     def _show_desktop_safe(self) -> bool:
-        """Güvenli masaüstü gösterimi"""
+        """Guvenli masaustu gosterimi"""
         try:
             pyautogui.hotkey('super', 'd')
             return True
@@ -307,7 +307,7 @@ class ActionHandler:
                 return False
 
     def _switch_workspace_safe(self, direction: str) -> bool:
-        """Güvenli çalışma alanı değişimi"""
+        """Guvenli çalişma alani değişimi"""
         try:
             if direction == 'workspace_left':
                 pyautogui.hotkey('ctrl', 'alt', 'left')
@@ -318,14 +318,14 @@ class ActionHandler:
             return False
 
     def _toggle_disabled_mode(self) -> bool:
-        """Gesture kontrolünü geçici olarak devre dışı bırak"""
+        """Gesture kontrolunu geçici olarak devre dişi birak"""
         self.is_disabled = not self.is_disabled
-        status = "devre dışı" if self.is_disabled else "etkin"
-        print(f"🔄 Gesture kontrolü {status}")
+        status = "devre dişi" if self.is_disabled else "etkin"
+        print(f"🔄 Gesture kontrolu {status}")
         return True
 
     def _toggle_cursor_freeze(self) -> bool:
-        """İmleci dondur/çöz"""
+        """İmleci dondur/çoz"""
         self.cursor_frozen = not self.cursor_frozen
         status = "donduruldu" if self.cursor_frozen else "serbest"
         print(f"🔒 İmleç {status}")
@@ -336,7 +336,7 @@ class ActionHandler:
         if self.is_disabled or self.cursor_frozen:
             return False
 
-        # SADECE baş parmak + işaret parmağı birleşik olduğunda hareket et
+        # SADECE baş parmak + işaret parmaği birleşik olduğunda hareket et
         if not pinch_active:
             return False
 
@@ -344,11 +344,11 @@ class ActionHandler:
             current_x, current_y = pyautogui.position()
             screen_w, screen_h = pyautogui.size()
 
-            # Koordinatları düzgün çevir (0-1 normalized değerlerden piksel koordinatlarına)
+            # Koordinatlari duzgun çevir (0-1 normalized değerlerden piksel koordinatlarina)
             if x <= 1.0 and y <= 1.0:  # Normalized koordinatlar
                 target_x = x * screen_w
                 target_y = y * screen_h
-            else:  # Zaten piksel koordinatları
+            else:  # Zaten piksel koordinatlari
                 target_x = x
                 target_y = y
 
@@ -356,20 +356,20 @@ class ActionHandler:
             new_x = current_x + (target_x - current_x) * smoothing
             new_y = current_y + (target_y - current_y) * smoothing
 
-            # Ekran sınırları içinde tut ve güvenlik kontrolü
+            # Ekran sinirlari içinde tut ve guvenlik kontrolu
             new_x = max(self.safe_margin, min(new_x, screen_w - self.safe_margin))
             new_y = max(self.safe_margin, min(new_y, screen_h - self.safe_margin))
 
-            # Pozisyon güvenli mi kontrol et
+            # Pozisyon guvenli mi kontrol et
             if not self._is_position_safe(new_x, new_y):
                 return False
 
-            # Çok büyük sıçramalar engelle
+            # Çok buyuk siçramalar engelle
             max_movement = 100  # piksel
             distance = ((new_x - current_x)**2 + (new_y - current_y)**2)**0.5
 
             if distance > max_movement:
-                # Hareketi sınırla
+                # Hareketi sinirla
                 ratio = max_movement / distance
                 new_x = current_x + (new_x - current_x) * ratio
                 new_y = current_y + (new_y - current_y) * ratio
@@ -377,11 +377,11 @@ class ActionHandler:
             pyautogui.moveTo(new_x, new_y, _pause=False)
             return True
         except Exception as e:
-            print(f"İmleç hareket hatası: {e}")
+            print(f"İmleç hareket hatasi: {e}")
             return False
 
     def get_status(self) -> Dict[str, Any]:
-        """Mevcut durumu döndür"""
+        """Mevcut durumu dondur"""
         return {
             'disabled': self.is_disabled,
             'cursor_frozen': self.cursor_frozen,
@@ -393,7 +393,7 @@ class ActionHandler:
         }
 
     def get_stats(self) -> Dict[str, Any]:
-        """İstatistikleri döndür"""
+        """İstatistikleri dondur"""
         if not self.action_history:
             return {'total_actions': 0}
 
@@ -415,76 +415,76 @@ class ActionHandler:
         }
 
     def _start_drag_safe(self, cursor_pos: tuple) -> bool:
-        """Drag başlatma - güvenli"""
+        """Drag başlatma - guvenli"""
         try:
             if self.drag_mode:
                 return True  # Zaten drag modunda
 
-            # Pozisyon güvenli mi kontrol et
+            # Pozisyon guvenli mi kontrol et
             if not self._is_position_safe(cursor_pos[0], cursor_pos[1]):
                 return False
 
             self.drag_mode = True
             self.drag_start_pos = cursor_pos
 
-            # Mouse tuşunu basılı tut
+            # Mouse tuşunu basili tut
             pyautogui.mouseDown()
-            print(f"🔒 Drag başlatıldı pozisyon: {cursor_pos}")
+            print(f"🔒 Drag başlatildi pozisyon: {cursor_pos}")
             return True
 
         except Exception as e:
-            print(f"Drag başlatma hatası: {e}")
+            print(f"Drag başlatma hatasi: {e}")
             self.drag_mode = False
             return False
 
     def _move_drag_safe(self, cursor_pos: tuple) -> bool:
-        """Drag hareket ettirme - güvenli"""
+        """Drag hareket ettirme - guvenli"""
         try:
             if not self.drag_mode:
                 return False
 
-            # Drag sırasında imleç hareketi
+            # Drag sirasinda imleç hareketi
             x, y = cursor_pos
             screen_w, screen_h = pyautogui.size()
 
-            # Koordinat kontrolü - normalized mı yoksa piksel mi?
+            # Koordinat kontrolu - normalized mi yoksa piksel mi?
             if x <= 1.0 and y <= 1.0:  # Normalized koordinatlar
                 screen_x = int(x * screen_w)
                 screen_y = int(y * screen_h)
-            else:  # Zaten piksel koordinatları
+            else:  # Zaten piksel koordinatlari
                 screen_x = int(x)
                 screen_y = int(y)
 
-            # Güvenli sınırları kontrol et - daha büyük margin
+            # Guvenli sinirlari kontrol et - daha buyuk margin
             screen_x = max(self.safe_margin, min(screen_x, screen_w - self.safe_margin))
             screen_y = max(self.safe_margin, min(screen_y, screen_h - self.safe_margin))
 
-            # Pozisyon güvenli mi kontrol et
+            # Pozisyon guvenli mi kontrol et
             if not self._is_position_safe(screen_x, screen_y):
-                print(f"⚠ Drag hareketi güvenli değil: x={screen_x}, y={screen_y}")
+                print(f"⚠ Drag hareketi guvenli değil: x={screen_x}, y={screen_y}")
                 return False
 
-            # Mevcut pozisyondan çok uzaksa hareketi sınırla
+            # Mevcut pozisyondan çok uzaksa hareketi sinirla
             current_x, current_y = pyautogui.position()
             max_drag_distance = 200  # piksel
             distance = ((screen_x - current_x)**2 + (screen_y - current_y)**2)**0.5
 
             if distance > max_drag_distance:
-                # Hareketi sınırla
+                # Hareketi sinirla
                 ratio = max_drag_distance / distance
                 screen_x = current_x + int((screen_x - current_x) * ratio)
                 screen_y = current_y + int((screen_y - current_y) * ratio)
 
-            # Fareyi sürükleyerek hareket ettir
+            # Fareyi surukleyerek hareket ettir
             pyautogui.moveTo(screen_x, screen_y, _pause=False)
             return True
 
         except Exception as e:
-            print(f"Drag hareket hatası: {e}")
+            print(f"Drag hareket hatasi: {e}")
             return False
 
     def _open_app_safe(self, app_name: str) -> bool:
-        """Uygulama açma - güvenli"""
+        """Uygulama açma - guvenli"""
         try:
             # Uygulama mapping
             app_commands = {
@@ -497,14 +497,14 @@ class ActionHandler:
 
             command = app_commands.get(app_name, app_name)
 
-            # Uygulamayı çalıştır
+            # Uygulamayi çaliştir
             subprocess.Popen([command],
                              stdout=subprocess.DEVNULL,
                              stderr=subprocess.DEVNULL)
 
-            print(f"📱 Uygulama açıldı: {app_name}")
+            print(f"📱 Uygulama açildi: {app_name}")
             return True
 
         except Exception as e:
-            print(f"Uygulama açma hatası ({app_name}): {e}")
+            print(f"Uygulama açma hatasi ({app_name}): {e}")
             return False

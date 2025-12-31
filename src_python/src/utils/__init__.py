@@ -1,5 +1,5 @@
 """
-Yardımcı modüller ve utilities
+Yardimci moduller ve utilities
 """
 
 from .smoothing_filters import AutoCalibrator, SmartCursor

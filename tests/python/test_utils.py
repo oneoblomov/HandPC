@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src_python.src
 
 
 class TestSmoothingFilters(unittest.TestCase):
-    """Smoothing filters (akıllı filtreleme) modülü testleri"""
+    """Smoothing filters (akilli filtreleme) modulu testleri"""
     
     def setUp(self):
         """Her test için setup"""
@@ -40,44 +40,44 @@ class TestSmoothingFilters(unittest.TestCase):
         self.assertIsInstance(pos1, tuple)
         self.assertEqual(len(pos1), 2)
         
-        # İkinci pozisyon (yakın)
+        # İkinci pozisyon (yakin)
         pos2 = self.smart_cursor.process_movement(0.51, 0.51, 1920, 1080)
         self.assertIsInstance(pos2, tuple)
         
-        # Filtreleme çalışıyor mu kontrol et
+        # Filtreleme çalişiyor mu kontrol et
         self.assertNotEqual(pos1, pos2)
     
     def test_smart_cursor_reset(self):
-        """SmartCursor sıfırlama testi"""
+        """SmartCursor sifirlama testi"""
         # Birkaç hareket yap
         self.smart_cursor.process_movement(0.5, 0.5, 1920, 1080)
         self.smart_cursor.process_movement(0.6, 0.6, 1920, 1080)
         
-        # Sıfırla
+        # Sifirla
         self.smart_cursor.reset()
         
-        # Stats sıfırlanmış olmalı
+        # Stats sifirlanmiş olmali
         stats = self.smart_cursor.get_stats()
         self.assertIsInstance(stats, dict)
     
     def test_smart_cursor_sensitivity(self):
-        """SmartCursor hassasiyet ayarları testi"""
-        # Varsayılan hassasiyet
+        """SmartCursor hassasiyet ayarlari testi"""
+        # Varsayilan hassasiyet
         default_pos = self.smart_cursor.process_movement(0.5, 0.5, 1920, 1080)
         
         # Hassasiyeti değiştir
         self.smart_cursor.sensitivity_x = 2.0
         self.smart_cursor.sensitivity_y = 2.0
         
-        # Aynı hareketi tekrarla
+        # Ayni hareketi tekrarla
         high_sens_pos = self.smart_cursor.process_movement(0.51, 0.51, 1920, 1080)
         
-        # Pozisyonlar farklı olmalı
+        # Pozisyonlar farkli olmali
         self.assertNotEqual(default_pos, high_sens_pos)
 
 
 class TestPerformanceMonitor(unittest.TestCase):
-    """Performance monitor modülü testleri"""
+    """Performance monitor modulu testleri"""
     
     def setUp(self):
         """Her test için setup"""
@@ -93,14 +93,14 @@ class TestPerformanceMonitor(unittest.TestCase):
     
     def test_frame_counting(self):
         """Frame sayma testi"""
-        # Başlangıç frame sayısı
+        # Başlangiç frame sayisi
         initial_stats = self.monitor.get_stats()
         initial_frame_count = initial_stats.get('frame_count', 0)
         
         # Frame işle
         self.monitor.process_frame()
         
-        # Frame sayısı artmış olmalı
+        # Frame sayisi artmiş olmali
         new_stats = self.monitor.get_stats()
         new_frame_count = new_stats.get('frame_count', 0)
         
@@ -113,31 +113,31 @@ class TestPerformanceMonitor(unittest.TestCase):
         # Birkaç frame işle
         for _ in range(5):
             self.monitor.process_frame()
-            time.sleep(0.01)  # Küçük gecikme
+            time.sleep(0.01)  # Kuçuk gecikme
         
         stats = self.monitor.get_stats()
         fps = stats.get('fps', 0)
         
-        # FPS pozitif olmalı
+        # FPS pozitif olmali
         self.assertGreater(fps, 0)
     
     def test_reset_statistics(self):
-        """İstatistik sıfırlama testi"""
+        """İstatistik sifirlama testi"""
         # Birkaç frame işle
         for _ in range(3):
             self.monitor.process_frame()
         
-        # İstatistikleri sıfırla
+        # İstatistikleri sifirla
         self.monitor.reset()
         
-        # Frame sayısı sıfırlanmış olmalı
+        # Frame sayisi sifirlanmiş olmali
         stats = self.monitor.get_stats()
         frame_count = stats.get('frame_count', 0)
         self.assertEqual(frame_count, 0)
 
 
 class TestMainModule(unittest.TestCase):
-    """Ana main.py modülü testleri"""
+    """Ana main.py modulu testleri"""
     
     def setUp(self):
         """Her test için setup"""
@@ -150,7 +150,7 @@ class TestMainModule(unittest.TestCase):
     def test_gesture_control_system_init(self):
         """GestureControlSystem başlatma testi"""
         if hasattr(self.main_module, 'GestureControlSystem'):
-            # Mock config dosyası ile başlat
+            # Mock config dosyasi ile başlat
             with patch('builtins.open', create=True) as mock_open:
                 mock_open.return_value.__enter__.return_value.read.return_value = '{"settings": {"smoothing": 0.3}}'
                 
@@ -172,25 +172,25 @@ class TestMainModule(unittest.TestCase):
         """Run fonksiyonu başlatma testi"""
         # Mock camera
         mock_cap = Mock()
-        mock_cap.isOpened.return_value = False  # Kamera açılmadı
+        mock_cap.isOpened.return_value = False  # Kamera açilmadi
         mock_capture.return_value = mock_cap
         
         # Mock MediaPipe import
         with patch.dict('sys.modules', {'mediapipe': Mock()}):
-            # run fonksiyonunu test et (kamera hatası bekleniyor)
+            # run fonksiyonunu test et (kamera hatasi bekleniyor)
             if hasattr(self.main_module, 'run'):
-                # Kamera hatası nedeniyle erken çıkış yapmalı
+                # Kamera hatasi nedeniyle erken çikiş yapmali
                 try:
                     self.main_module.run(camera_index=0)
                 except:
                     pass  # Hata bekleniyor
                 
-                # Mock'ların çağrıldığını kontrol et
+                # Mock'larin çağrildiğini kontrol et
                 mock_capture.assert_called_once_with(0)
 
 
 class TestServiceModule(unittest.TestCase):
-    """Service.py modülü testleri"""
+    """Service.py modulu testleri"""
     
     def setUp(self):
         """Her test için setup"""
@@ -218,7 +218,7 @@ class TestServiceModule(unittest.TestCase):
             with tempfile.TemporaryDirectory() as temp_dir:
                 service = self.service_module.HCIGestureService(temp_dir)
                 
-                # Başlangıç durumu
+                # Başlangiç durumu
                 self.assertIn('active', service.status)
                 self.assertIn('calibrated', service.status)
                 self.assertIn('stats', service.status)
@@ -246,44 +246,44 @@ class TestServiceModule(unittest.TestCase):
                     service._init_camera()
                     self.assertIsNotNone(service.camera)
                 except:
-                    pass  # MediaPipe import hatası olabilir
+                    pass  # MediaPipe import hatasi olabilir
 
 
 class TestUtilityFunctions(unittest.TestCase):
-    """Yardımcı fonksiyonlar testi"""
+    """Yardimci fonksiyonlar testi"""
     
     def test_import_safety(self):
-        """Import güvenliği testi"""
-        # Ana modüllerin import edilebilirliği
+        """Import guvenliği testi"""
+        # Ana modullerin import edilebilirliği
         try:
             sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
             
-            # Core modüller
+            # Core moduller
             try:
                 from core import gesture_detector, action_handler
                 core_imports_ok = True
             except ImportError:
                 core_imports_ok = False
             
-            # Utils modüller
+            # Utils moduller
             try:
                 from utils import smoothing_filters
                 utils_imports_ok = True
             except ImportError:
                 utils_imports_ok = False
             
-            # En az bir modül çalışıyor olmalı
+            # En az bir modul çalişiyor olmali
             self.assertTrue(core_imports_ok or utils_imports_ok)
             
         except Exception as e:
             self.skipTest(f"Import test failed: {e}")
     
     def test_config_file_handling(self):
-        """Config dosyası işleme testi"""
+        """Config dosyasi işleme testi"""
         import tempfile
         import json
         
-        # Geçici config dosyası oluştur
+        # Geçici config dosyasi oluştur
         config_data = {
             "settings": {
                 "smoothing": 0.3,
@@ -296,7 +296,7 @@ class TestUtilityFunctions(unittest.TestCase):
             config_path = f.name
         
         try:
-            # Config dosyasını oku
+            # Config dosyasini oku
             with open(config_path, 'r') as f:
                 loaded_config = json.load(f)
             
@@ -304,7 +304,7 @@ class TestUtilityFunctions(unittest.TestCase):
             self.assertEqual(loaded_config['settings']['click_cooldown'], 0.2)
             
         finally:
-            # Geçici dosyayı temizle
+            # Geçici dosyayi temizle
             os.unlink(config_path)
 
 

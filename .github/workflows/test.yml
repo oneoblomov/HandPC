@@ -7,7 +7,7 @@ on:
     branches: [main]
   workflow_dispatch:
   schedule:
-    # Günlük test çalıştırma (UTC 02:00)
+    # Gunluk test çaliştirma (UTC 02:00)
     - cron: "0 2 * * *"
 
 env:
@@ -67,7 +67,7 @@ jobs:
           pip install pytest pytest-cov pytest-mock
           pip install flake8 black isort mypy
 
-          # MediaPipe için özel kurulum
+          # MediaPipe için ozel kurulum
           pip install mediapipe>=0.10.0
 
           # PyAutoGUI için gerekli paketler
@@ -165,24 +165,24 @@ jobs:
           echo "🔍 Validating metadata.json..."
           cat metadata.json
           python3 -m json.tool metadata.json > /dev/null
-          echo "✅ metadata.json is valid JSON"
+          echo "[✓] metadata.json is valid JSON"
 
           # Check required fields
           required_fields=("uuid" "name" "description" "shell-version")
           for field in "${required_fields[@]}"; do
             if ! grep -q "\"$field\"" metadata.json; then
-              echo "❌ Missing required field: $field"
+              echo "[X] Missing required field: $field"
               exit 1
             fi
           done
-          echo "✅ All required metadata fields present"
+          echo "[✓] All required metadata fields present"
 
       - name: Validate GSettings Schema
         run: |
           echo "🔍 Validating GSettings schema..."
           if [ -f "schemas/org.gnome.shell.extensions.hci.gschema.xml" ]; then
             glib-compile-schemas --dry-run schemas/
-            echo "✅ GSettings schema is valid"
+            echo "[✓] GSettings schema is valid"
           else
             echo "⚠️ No GSettings schema found"
           fi
@@ -194,13 +194,13 @@ jobs:
           # Check extension.js
           if [ -f "extension.js" ]; then
             gjs -c "$(cat extension.js)" 2>/dev/null || echo "⚠️ Extension.js syntax issues"
-            echo "✅ extension.js syntax checked"
+            echo "[✓] extension.js syntax checked"
           fi
 
           # Check prefs.js
           if [ -f "prefs.js" ]; then
             gjs -c "$(cat prefs.js)" 2>/dev/null || echo "⚠️ prefs.js syntax issues"
-            echo "✅ prefs.js syntax checked"
+            echo "[✓] prefs.js syntax checked"
           fi
 
       - name: Run Extension Tests
@@ -219,7 +219,7 @@ jobs:
           echo "Running test-prefs.js..."
           timeout 30s gjs test-prefs.js || echo "Preferences tests completed"
 
-          echo "✅ Extension tests completed"
+          echo "[✓] Extension tests completed"
 
       - name: Package Extension
         run: |
@@ -244,7 +244,7 @@ jobs:
           zip -r ../hci-extension.zip .
           cd ..
 
-          echo "✅ Extension packaged successfully"
+          echo "[✓] Extension packaged successfully"
           ls -la hci-extension.zip
 
       - name: Upload Extension Package
@@ -282,7 +282,7 @@ jobs:
         run: |
           if [ -f "docker-compose.yml" ]; then
             docker-compose -f docker-compose.yml config
-            echo "✅ Docker Compose configuration is valid"
+            echo "[✓] Docker Compose configuration is valid"
           fi
 
   # Security and Quality Scans
@@ -380,7 +380,7 @@ jobs:
 
       - name: Notify Deployment
         run: |
-          echo "🚀 Extension deployment completed!"
+          echo "Extension deployment completed!"
           echo "📦 Package: hci-extension.zip"
           echo "🔗 Repository: ${{ github.repository }}"
           echo "📝 Commit: ${{ github.sha }}"
@@ -438,11 +438,11 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Test Suite | Status |" >> $GITHUB_STEP_SUMMARY
           echo "|------------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Python Tests | ${{ needs.python-tests.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Extension Tests | ${{ needs.extension-tests.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Docker Tests | ${{ needs.docker-tests.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Security Scan | ${{ needs.security-scan.result == 'success' && '✅ Passed' || '⚠️ Issues Found' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Performance Tests | ${{ needs.performance-tests.result == 'success' && '✅ Passed' || '⚠️ Issues Found' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Python Tests | ${{ needs.python-tests.result == 'success' && '[✓] Passed' || '[X] Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Extension Tests | ${{ needs.extension-tests.result == 'success' && '[✓] Passed' || '[X] Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Docker Tests | ${{ needs.docker-tests.result == 'success' && '[✓] Passed' || '[X] Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Security Scan | ${{ needs.security-scan.result == 'success' && '[✓] Passed' || '⚠️ Issues Found' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Performance Tests | ${{ needs.performance-tests.result == 'success' && '[✓] Passed' || '⚠️ Issues Found' }} |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## 📊 Pipeline Statistics" >> $GITHUB_STEP_SUMMARY
           echo "- **Workflow Run ID**: ${{ github.run_id }}" >> $GITHUB_STEP_SUMMARY

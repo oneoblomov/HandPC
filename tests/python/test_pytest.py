@@ -47,7 +47,7 @@ class TestGestureDetectorPytest:
         return [MockLandmark(i * 0.05, i * 0.05) for i in range(21)]
     
     def test_gesture_detection_with_fixture(self, mock_landmarks):
-        """Fixture kullanarak gesture algılama testi"""
+        """Fixture kullanarak gesture algilama testi"""
         result = self.detector.detect_gesture(mock_landmarks)
         assert isinstance(result, dict)
         assert 'action' in result
@@ -72,7 +72,7 @@ class TestActionHandlerPytest:
     
     @pytest.mark.parametrize("safe_mode", [True, False])
     def test_safe_mode_toggle(self, safe_mode):
-        """Parametrize edilmiş güvenli mod testi"""
+        """Parametrize edilmiş guvenli mod testi"""
         self.handler.enable_safe_mode(safe_mode)
         assert self.handler.safe_mode == safe_mode
     
@@ -97,7 +97,7 @@ class TestActionHandlerPytest:
         }, False),  # Should be rejected
     ])
     def test_action_execution_parametrized(self, gesture_data, expected_result):
-        """Parametrize edilmiş eylem yürütme testi"""
+        """Parametrize edilmiş eylem yurutme testi"""
         with patch('pyautogui.click'):
             with patch('pyautogui.position', return_value=(500, 400)):
                 with patch('pyautogui.size', return_value=(1920, 1080)):
@@ -119,7 +119,7 @@ class TestServicePytest:
             pytest.skip("Service module not available")
     
     def test_service_class_exists(self):
-        """Service sınıfı varlık testi"""
+        """Service sinifi varlik testi"""
         assert hasattr(self.service_module, 'HCIGestureService')
     
     @pytest.fixture
@@ -169,11 +169,11 @@ class TestUtilsPytest:
 
 
 class TestConfigurationPytest:
-    """Pytest ile konfigürasyon testleri"""
+    """Pytest ile konfigurasyon testleri"""
     
     @pytest.fixture
     def sample_config(self):
-        """Örnek konfigürasyon fixture"""
+        """ornek konfigurasyon fixture"""
         return {
             "settings": {
                 "smoothing": 0.3,
@@ -194,7 +194,7 @@ class TestConfigurationPytest:
         }
     
     def test_config_structure(self, sample_config):
-        """Konfigürasyon yapısı testi"""
+        """Konfigurasyon yapisi testi"""
         assert "settings" in sample_config
         assert "gestures" in sample_config
         
@@ -205,7 +205,7 @@ class TestConfigurationPytest:
         assert isinstance(settings["click_cooldown"], (int, float))
     
     def test_gesture_config(self, sample_config):
-        """Gesture konfigürasyonu testi"""
+        """Gesture konfigurasyonu testi"""
         gestures = sample_config["gestures"]
         
         for gesture_name, gesture_config in gestures.items():
@@ -219,7 +219,7 @@ class TestConfigurationPytest:
         "config/gesture_map.json",
     ])
     def test_config_file_paths(self, config_file):
-        """Konfigürasyon dosya yolları testi"""
+        """Konfigurasyon dosya yollari testi"""
         # Test that config paths are properly formed
         assert config_file.endswith('.json')
         assert 'gesture' in config_file.lower()
@@ -230,7 +230,7 @@ class TestPerformancePytest:
     
     @pytest.mark.performance
     def test_gesture_detection_performance(self):
-        """Gesture algılama performans testi"""
+        """Gesture algilama performans testi"""
         try:
             from src_python.src.core.gesture_detector import GestureDetector
             import time
@@ -244,7 +244,7 @@ class TestPerformancePytest:
             
             landmarks = [MockLandmark(i * 0.05, i * 0.05) for i in range(21)]
             
-            # Performans ölçümü
+            # Performans olçumu
             start_time = time.time()
             
             for _ in range(100):  # 100 gesture detection
@@ -253,7 +253,7 @@ class TestPerformancePytest:
             end_time = time.time()
             avg_time = (end_time - start_time) / 100
             
-            # Her gesture detection 10ms'den az sürmeli
+            # Her gesture detection 10ms'den az surmeli
             assert avg_time < 0.01, f"Average detection time too slow: {avg_time:.4f}s"
             
         except ImportError:
@@ -261,7 +261,7 @@ class TestPerformancePytest:
     
     @pytest.mark.performance
     def test_action_execution_performance(self):
-        """Action yürütme performans testi"""
+        """Action yurutme performans testi"""
         try:
             from src_python.src.core.action_handler import ActionHandler
             import time
@@ -285,7 +285,7 @@ class TestPerformancePytest:
             end_time = time.time()
             avg_time = (end_time - start_time) / 50
             
-            # Her action execution 5ms'den az sürmeli
+            # Her action execution 5ms'den az surmeli
             assert avg_time < 0.005, f"Average action time too slow: {avg_time:.4f}s"
             
         except ImportError:
@@ -346,7 +346,7 @@ class TestEdgeCasesPytest:
             pytest.skip("ActionHandler not available")
     
     def test_memory_usage(self):
-        """Bellek kullanımı testi"""
+        """Bellek kullanimi testi"""
         try:
             from src_python.src.core.gesture_detector import GestureDetector
             import gc
